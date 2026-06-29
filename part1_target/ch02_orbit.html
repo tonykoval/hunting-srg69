@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 2 · The Orbit-Matrix Reduction — Hunting SRG(69)</title>
+<link rel="stylesheet" href="../assets/book.css">
+<link rel="stylesheet" href="../assets/print.css" media="print">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body>
+
+<div class="book-title-string">Hunting SRG(69)</div>
+
+<div class="book-shell">
+
+<nav class="nav-sidebar" aria-label="Table of contents">
+    <h2>Front Matter</h2>
+    <ol><li><a href="../index.html">Title &amp; Contents</a></li></ol>
+    <h2>Part I — The Target</h2>
+    <ol>
+        <li><a href="ch01_target.html">1. The Target</a></li>
+        <li><a href="ch02_orbit.html">2. The Orbit-Matrix Reduction</a></li>
+    </ol>
+    <h2>Part II — The Hunt</h2>
+    <ol start="3">
+        <li><a href="../part2_hunt/ch03_automorphisms.html">3. The Automorphism Sweep</a></li>
+        <li><a href="../part2_hunt/ch04_asymmetric.html">4. Cayley &amp; the Asymmetric Wall</a></li>
+    </ol>
+    <h2>Part III — Findings &amp; Frontier</h2>
+    <ol start="5">
+        <li><a href="../part3_frontier/ch05_frontier.html">5. Findings &amp; the Decision</a></li>
+    </ol>
+    <h2>Appendices</h2>
+    <ol>
+        <li><a href="../appendix/notation.html">A. Notation &amp; Glossary</a></li>
+        <li><a href="../appendix/theorems.html">B. Theorems &amp; Proofs</a></li>
+        <li><a href="../appendix/bibliography.html">C. Bibliography</a></li>
+    </ol>
+</nav>
+
+<main class="chapter" role="main">
+
+<h1 class="chapter-title">
+    <span class="chapter-number">Chapter 2 · Part I</span>
+    The Orbit-Matrix Reduction
+</h1>
+
+<p class="lead">
+Searching $2^{\binom{69}{2}} = 2^{2346}$ graphs directly is hopeless. The
+move that makes the problem tractable — for the symmetric part of it — is
+to <em>assume</em> a symmetry and quotient by it. A prescribed
+automorphism collapses the $69\times69$ adjacency matrix to a tiny
+<em>orbit matrix</em>, which can be enumerated exhaustively.
+</p>
+
+<h2>2.1 &nbsp; Prescribed automorphisms</h2>
+
+<p>
+Suppose $\Gamma$ is an $\mathrm{SRG}(69,20,7,5)$ with an automorphism
+$\sigma$ of prime order $p$. Then $\sigma$ partitions the $69$ vertices
+into $f$ <em>fixed points</em> and $\tfrac{69-f}{p}$ orbits of size $p$.
+Since orbits have size $p$, $\;f \equiv 69 \pmod p$. The adjacency matrix,
+written in this orbit basis, becomes constant on orbit-blocks — its data
+is captured by a $b \times b$ <strong>orbit matrix</strong> with
+$b = f + \tfrac{69-f}{p}$ rows, far smaller than $69$.
+</p>
+
+<p>
+A nontrivial automorphism cannot fix too much: for an SRG with smallest
+eigenvalue $s$, $\;\mathrm{fix}(\sigma) \le
+\tfrac{\max(\lambda,\mu)}{\,k-r\,}\,n$. For $(69,20,7,5)$, $r=5$, so
+$\mathrm{fix} \le \tfrac{7}{15}\cdot 69 = 32.2$, i.e. at most $32$ fixed
+points. Combined with $f\equiv 69 \pmod p$ this leaves only a short list
+of $(p,f)$ to check.
+</p>
+
+<h2>2.2 &nbsp; The column orbit matrix</h2>
+
+<div class="callout theorem">
+    <div class="callout-title">Definition (column orbit matrix; Behbahani–Lam)</div>
+    <p>
+    For an automorphism with orbit-length distribution $(n_1,\dots,n_b)$,
+    a $b\times b$ integer matrix $C=[c_{ij}]$ is a column orbit matrix of
+    an $\mathrm{SRG}(v,k,\lambda,\mu)$ if
+    </p>
+    <p style="text-align:center">
+    $\displaystyle\sum_{i=1}^{b} c_{ij} = \sum_{j=1}^{b}\frac{n_j}{n_i}c_{ij}=k,
+    \qquad
+    \sum_{s=1}^{b}\frac{n_s}{n_j}c_{is}c_{js}=\delta_{ij}(k-\mu)+\mu n_i+(\lambda-\mu)c_{ij},$
+    </p>
+    <p>
+    with $0\le c_{ij}\le n_i$ and $0\le c_{ii}\le n_i-1$. The entry
+    $c_{ij}$ counts neighbours an orbit-$i$ representative has in orbit $j$.
+    Every $\mathrm{SRG}$ with the prescribed automorphism yields such a
+    matrix; conversely each $C$ is a necessary scaffold to be
+    <em>lifted</em> back to a full graph.
+    </p>
+</div>
+
+<p>
+The point is the size: for $(69,20,7,5)$ with $p=3$, $b$ ranges over
+$16$–$23$; with $p=5$, $b$ is $12$–$13$. Enumerating integer matrices that
+small — under the two equations above, plus canonical-form dedup to kill
+relabellings — is a finite computation a desktop can finish.
+</p>
+
+<h2>2.3 &nbsp; Two outcomes, both decisive</h2>
+
+<p>
+For each $(p,f)$ the orbit-matrix enumeration ends in one of two ways, and
+both advance the problem:
+</p>
+
+<ul>
+    <li><strong>Zero orbit matrices.</strong> No $\mathrm{SRG}(69,20,7,5)$
+        admits an automorphism of order $p$ with $f$ fixed points. Sweep
+        all $f$ and all $p$, and you have proved <em>no graph has any
+        nontrivial automorphism</em> — a clean, verifiable theorem.</li>
+    <li><strong>One or more orbit matrices.</strong> Each is a candidate
+        skeleton. <em>Lift</em> it — fill in the within-orbit circulant
+        blocks consistently — and any successful lift is a genuine
+        $\mathrm{SRG}(69,20,7,5)$: existence, settled.</li>
+</ul>
+
+<div class="callout">
+    <div class="callout-title">The pipeline</div>
+    <p style="text-align:center;font-family:var(--font-mono);font-size:0.9em">
+    prescribe $(p,f)$ &nbsp;→&nbsp; enumerate orbit matrices &nbsp;→&nbsp;
+    (none ⇒ rule out) &nbsp;|&nbsp; (some ⇒ lift) &nbsp;→&nbsp; valid graph?
+    </p>
+</div>
+
+<p>
+Chapter 3 reports what this engine has actually returned across every
+prime order — a sweep that has already closed all of $p=3$, $p=5$, the
+larger primes, and the striking order-$23$ case.
+</p>
+
+<div class="chapter-nav">
+    <a class="prev" href="ch01_target.html">Ch 1 · The Target</a>
+    <a class="next" href="../part2_hunt/ch03_automorphisms.html">Ch 3 · The Automorphism Sweep</a>
+</div>
+
+<footer class="book-foot">
+    <p><em>Hunting SRG(69)</em> · Chapter 2 · Tony Koval · CC-BY-4.0.</p>
+</footer>
+
+</main>
+
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="BookInit.renderMath()"></script>
+<script src="../assets/book.js"></script>
+
+</body>
+</html>

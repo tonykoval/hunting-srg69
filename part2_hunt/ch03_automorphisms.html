@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 3 · The Automorphism Sweep — Hunting SRG(69)</title>
+<link rel="stylesheet" href="../assets/book.css">
+<link rel="stylesheet" href="../assets/print.css" media="print">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body>
+
+<div class="book-title-string">Hunting SRG(69)</div>
+
+<div class="book-shell">
+
+<nav class="nav-sidebar" aria-label="Table of contents">
+    <h2>Front Matter</h2>
+    <ol><li><a href="../index.html">Title &amp; Contents</a></li></ol>
+    <h2>Part I — The Target</h2>
+    <ol>
+        <li><a href="../part1_target/ch01_target.html">1. The Target</a></li>
+        <li><a href="../part1_target/ch02_orbit.html">2. The Orbit-Matrix Reduction</a></li>
+    </ol>
+    <h2>Part II — The Hunt</h2>
+    <ol start="3">
+        <li><a href="ch03_automorphisms.html">3. The Automorphism Sweep</a></li>
+        <li><a href="ch04_asymmetric.html">4. Cayley &amp; the Asymmetric Wall</a></li>
+    </ol>
+    <h2>Part III — Findings &amp; Frontier</h2>
+    <ol start="5">
+        <li><a href="../part3_frontier/ch05_frontier.html">5. Findings &amp; the Decision</a></li>
+    </ol>
+    <h2>Appendices</h2>
+    <ol>
+        <li><a href="../appendix/notation.html">A. Notation &amp; Glossary</a></li>
+        <li><a href="../appendix/theorems.html">B. Theorems &amp; Proofs</a></li>
+        <li><a href="../appendix/bibliography.html">C. Bibliography</a></li>
+    </ol>
+</nav>
+
+<main class="chapter" role="main">
+
+<h1 class="chapter-title">
+    <span class="chapter-number">Chapter 3 · Part II</span>
+    The Automorphism Sweep
+</h1>
+
+<p class="lead">
+Run the orbit-matrix engine of Chapter 2 at every prime order $p$ and
+every admissible fixed-point count $f$. The result so far is a wall of
+zeros — and one sharp theorem at order $23$. What remains is a single
+prime, $p=2$, and it is enormous.
+</p>
+
+<h2>3.1 &nbsp; Odd primes: a wall of zeros</h2>
+
+<p>
+The fixed-point bound ($\mathrm{fix}\le 32$) and $f\equiv 69 \pmod p$ leave
+finitely many $(p,f)$. Every odd-prime case has been enumerated to
+exhaustion, and <em>every one returns zero orbit matrices</em>. Filter the
+runs below:
+</p>
+
+<div class="interactive">
+    <span class="interactive-label">Orbit-matrix sweep</span>
+    <div class="controls">
+        <label for="sw-p">Order $p$:</label>
+        <select id="sw-p">
+            <option value="all">all</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="23">23</option>
+            <option value="2">2</option>
+        </select>
+        <label for="sw-st">Status:</label>
+        <select id="sw-st">
+            <option value="all">all</option>
+            <option value="done">done</option>
+            <option value="pending">pending</option>
+        </select>
+        <span style="font-family:var(--font-mono);font-size:0.85em">
+            matrices found: <span class="readout" id="sw-total" style="color:#b00020">0</span>
+        </span>
+    </div>
+    <table>
+        <thead><tr><th>$p$</th><th>$f$</th><th>orbits $o$</th><th>cubes</th><th>time</th><th>result</th></tr></thead>
+        <tbody id="sw-body"></tbody>
+    </table>
+</div>
+
+<div class="callout theorem">
+    <div class="callout-title">Theorem (no odd-prime automorphism)</div>
+    <p>
+    No $\mathrm{SRG}(69,20,7,5)$ admits an automorphism of order $3$, $5$,
+    or any prime $\ge 7$. The orbit-matrix enumeration is exhaustive — all
+    $f$ for $p=3$ (orbit counts $16$–$23$, up to $1{,}177{,}968$ raw
+    cubes), both $f$ for $p=5$, and the larger primes — and every case
+    yields $0$ matrices. $\square$
+    </p>
+</div>
+
+<h2>3.2 &nbsp; The order-23 case, settled directly</h2>
+
+<p>
+Order $23$ is special: $69 = 3\cdot 23$, so an order-$23$ automorphism acts
+with $f\equiv 69\equiv 0 \pmod{23}$ fixed points — either $0$ or $23$. The
+structure is rigid enough to attack as a direct SAT instance rather than a
+full orbit-matrix sweep, and it falls almost instantly.
+</p>
+
+<div class="callout theorem">
+    <div class="callout-title">Theorem (no order-23 automorphism)</div>
+    <p>
+    No $\mathrm{SRG}(69,20,7,5)$ has an automorphism of order $23$. The
+    prescribed-$\mathbb{Z}_{23}$ existence formula is UNSAT, decided by
+    <code>kissat</code> in $23$ seconds. $\square$
+    </p>
+</div>
+
+<h2>3.3 &nbsp; The remaining prime: $p=2$</h2>
+
+<p>
+Only involutions are left. An order-$2$ automorphism fixes an <em>odd</em>
+number of points, $f\in\{1,3,\dots,19\}$, with $o=\tfrac{69-f}{2}$ orbits —
+so $o$ ranges over $25$–$34$, far larger than the odd-prime cases, and the
+cube counts explode:
+</p>
+
+<table>
+    <thead><tr><th>$f$</th><th>orbits $o$</th><th>cubes (where known)</th><th>status</th></tr></thead>
+    <tbody>
+        <tr><td>19</td><td>25</td><td>4,636,800</td><td>running</td></tr>
+        <tr><td>17</td><td>26</td><td>~9.9 M</td><td>pending</td></tr>
+        <tr><td>15</td><td>27</td><td>~13.1 M</td><td>pending</td></tr>
+        <tr><td>13</td><td>28</td><td>~33.5 M</td><td>pending</td></tr>
+        <tr><td>11</td><td>29</td><td>~79.6 M</td><td>pending</td></tr>
+        <tr><td>9</td><td>30</td><td>~116.6 M</td><td>pending</td></tr>
+        <tr><td>7–1</td><td>31–34</td><td>larger still</td><td>pending</td></tr>
+    </tbody>
+</table>
+
+<p>
+The $f=9$–$19$ band alone exceeds $257$ million cubes, and the full $p=2$
+sweep runs to billions. Unlike the odd-prime cases, the fixed-block dedup
+gives no reduction here (every orbit has a distinct fix-adjacency pattern),
+so all cubes must be processed. This is a distributed-compute job, not a
+desktop one — the subject of Chapter 5.
+</p>
+
+<div class="callout warning">
+    <div class="callout-title">What "$p=2$ done" would buy</div>
+    <p>
+    Finish the involution sweep with zero matrices and the theorem upgrades
+    to its strongest form: <strong>no $\mathrm{SRG}(69,20,7,5)$ has any
+    nontrivial automorphism.</strong> A graph, if it exists at all, would
+    then have to be completely rigid — which is exactly the case Chapter 4
+    confronts. Find a matrix instead, lift it, and the existence question
+    is settled the other way.
+    </p>
+</div>
+
+<div class="chapter-nav">
+    <a class="prev" href="../part1_target/ch02_orbit.html">Ch 2 · The Orbit-Matrix Reduction</a>
+    <a class="next" href="ch04_asymmetric.html">Ch 4 · Cayley &amp; the Asymmetric Wall</a>
+</div>
+
+<footer class="book-foot">
+    <p><em>Hunting SRG(69)</em> · Chapter 3 · Tony Koval · CC-BY-4.0.</p>
+</footer>
+
+</main>
+
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="BookInit.renderMath()"></script>
+<script src="../assets/book.js"></script>
+
+<script>
+/* --------------------- Orbit-matrix sweep table --------------------- */
+(function () {
+    "use strict";
+    const ROWS = [
+        { p:5,  f:9,  o:12, cubes:"496",        time:"21 s",     st:"done",    res:"0 matrices" },
+        { p:5,  f:4,  o:13, cubes:"—",          time:"120 s",    st:"done",    res:"0 matrices" },
+        { p:3,  f:21, o:16, cubes:"12,872",     time:"11,121 s", st:"done",    res:"0 matrices" },
+        { p:3,  f:18, o:17, cubes:"13,056",     time:"292 s",    st:"done",    res:"0 matrices" },
+        { p:3,  f:15, o:18, cubes:"21,624",     time:"183 s",    st:"done",    res:"0 matrices" },
+        { p:3,  f:12, o:19, cubes:"92,568",     time:"1,485 s",  st:"done",    res:"0 matrices" },
+        { p:3,  f:9,  o:20, cubes:"130,816",    time:"—",        st:"done",    res:"0 matrices" },
+        { p:3,  f:6,  o:21, cubes:"170,544",    time:"2,711 s",  st:"done",    res:"0 matrices" },
+        { p:3,  f:3,  o:22, cubes:"654,192",    time:"10,523 s", st:"done",    res:"0 matrices" },
+        { p:3,  f:0,  o:23, cubes:"1,177,968",  time:"254 s",    st:"done",    res:"0 matrices" },
+        { p:23, f:0,  o:3,  cubes:"SAT",        time:"23 s",     st:"done",    res:"UNSAT (no graph)" },
+        { p:2,  f:19, o:25, cubes:"4,636,800",  time:"—",        st:"pending", res:"running" },
+        { p:2,  f:17, o:26, cubes:"~9.9 M",     time:"—",        st:"pending", res:"pending" },
+        { p:2,  f:11, o:29, cubes:"~79.6 M",    time:"—",        st:"pending", res:"pending" },
+        { p:2,  f:9,  o:30, cubes:"~116.6 M",   time:"—",        st:"pending", res:"pending" }
+    ];
+    const $ = id => document.getElementById(id);
+    const body = $("sw-body");
+    function render() {
+        const fp = $("sw-p").value, fs = $("sw-st").value;
+        body.innerHTML = "";
+        for (const r of ROWS) {
+            if (fp !== "all" && String(r.p) !== fp) continue;
+            if (fs !== "all" && r.st !== fs) continue;
+            const tr = document.createElement("tr");
+            const done = r.st === "done";
+            const col = r.res.indexOf("0 matrices") === 0 || r.res.indexOf("UNSAT") === 0 ? "#2e7d32" : "#777";
+            tr.innerHTML =
+                `<td>${r.p}</td><td>${r.f}</td><td>${r.o}</td>` +
+                `<td style="font-family:var(--font-mono);font-size:0.85em">${r.cubes}</td>` +
+                `<td style="font-family:var(--font-mono);font-size:0.85em">${r.time}</td>` +
+                `<td style="color:${done ? col : '#999'}">${r.res}</td>`;
+            body.appendChild(tr);
+        }
+        $("sw-total").textContent = "0";
+    }
+    $("sw-p").addEventListener("change", render);
+    $("sw-st").addEventListener("change", render);
+    render();
+})();
+</script>
+
+</body>
+</html>

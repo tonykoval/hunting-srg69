@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Appendix A · Notation &amp; Glossary — Hunting SRG(69)</title>
+<link rel="stylesheet" href="../assets/book.css">
+<link rel="stylesheet" href="../assets/print.css" media="print">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body>
+
+<div class="book-title-string">Hunting SRG(69)</div>
+
+<div class="book-shell">
+
+<nav class="nav-sidebar" aria-label="Table of contents">
+    <h2>Front Matter</h2>
+    <ol><li><a href="../index.html">Title &amp; Contents</a></li></ol>
+    <h2>Part I — The Target</h2>
+    <ol>
+        <li><a href="../part1_target/ch01_target.html">1. The Target</a></li>
+        <li><a href="../part1_target/ch02_orbit.html">2. The Orbit-Matrix Reduction</a></li>
+    </ol>
+    <h2>Part II — The Hunt</h2>
+    <ol start="3">
+        <li><a href="../part2_hunt/ch03_automorphisms.html">3. The Automorphism Sweep</a></li>
+        <li><a href="../part2_hunt/ch04_asymmetric.html">4. Cayley &amp; the Asymmetric Wall</a></li>
+    </ol>
+    <h2>Part III — Findings &amp; Frontier</h2>
+    <ol start="5">
+        <li><a href="../part3_frontier/ch05_frontier.html">5. Findings &amp; the Decision</a></li>
+    </ol>
+    <h2>Appendices</h2>
+    <ol>
+        <li><a href="notation.html">A. Notation &amp; Glossary</a></li>
+        <li><a href="theorems.html">B. Theorems &amp; Proofs</a></li>
+        <li><a href="bibliography.html">C. Bibliography</a></li>
+    </ol>
+</nav>
+
+<main class="chapter" role="main">
+
+<h1 class="chapter-title">
+    <span class="chapter-number">Appendix A</span>
+    Notation &amp; Glossary
+</h1>
+
+<h2>A.1 &nbsp; Symbols</h2>
+
+<table>
+    <thead><tr><th>Symbol</th><th>Meaning</th></tr></thead>
+    <tbody>
+        <tr><td>$(n,k,\lambda,\mu)$</td><td>SRG parameters; here $(69,20,7,5)$</td></tr>
+        <tr><td>$A$</td><td>Adjacency matrix ($0/1$, symmetric, zero diagonal)</td></tr>
+        <tr><td>$r,\ s$</td><td>Non-principal eigenvalues; here $r=5,\ s=-3$</td></tr>
+        <tr><td>$f,\ g$</td><td>Multiplicities of $r,\ s$; here $f=23,\ g=45$</td></tr>
+        <tr><td>$p$</td><td>Prime order of a prescribed automorphism</td></tr>
+        <tr><td>$f$ (in a sweep)</td><td>Number of fixed points of the automorphism</td></tr>
+        <tr><td>$o$</td><td>Number of length-$p$ orbits, $o=(69-f)/p$</td></tr>
+        <tr><td>$C=[c_{ij}]$</td><td>Column orbit matrix; $c_{ij}=$ neighbours of an orbit-$i$ rep in orbit $j$</td></tr>
+        <tr><td>$G$</td><td>Gram matrix of the Euclidean representation (PSD, rank $23$)</td></tr>
+    </tbody>
+</table>
+
+<h2>A.2 &nbsp; Glossary</h2>
+
+<dl>
+    <p><strong>Strongly regular graph (SRG).</strong> A $k$-regular graph
+    on $n$ vertices in which adjacent vertices share $\lambda$ and
+    non-adjacent vertices share $\mu$ common neighbours.</p>
+
+    <p><strong>Open parameter set.</strong> One that passes every known
+    non-existence test but has no known construction. $(69,20,7,5)$ is the
+    smallest open SRG existence question in Brouwer's table.</p>
+
+    <p><strong>Prescribed automorphism.</strong> An assumed symmetry
+    $\sigma$ of prime order $p$; the search is restricted to graphs fixed
+    by $\sigma$, which collapses to a small orbit matrix.</p>
+
+    <p><strong>Orbit matrix.</strong> The quotient of the adjacency matrix
+    by a prescribed automorphism — a $b\times b$ integer matrix ($b=f+o$)
+    satisfying the Behbahani–Lam column-orbit equations (Ch 2). Zero orbit
+    matrices ⇒ no graph with that symmetry.</p>
+
+    <p><strong>Lift.</strong> Reconstructing a full $69\times69$ adjacency
+    matrix from an orbit matrix by filling in consistent within-orbit
+    circulant blocks. A successful lift is a genuine SRG.</p>
+
+    <p><strong>Cube.</strong> A fixed partial assignment splitting the
+    orbit-matrix / SAT search; the unit of distributed work
+    (<code>CUBE_RANGE</code>).</p>
+
+    <p><strong>Cayley graph / partial difference set (PDS).</strong>
+    $\mathrm{Cay}(G,S)$ is an SRG iff $S\subseteq G$ is a PDS. For order
+    $69$ the only group is $\mathbb{Z}_{69}$; no PDS exists.</p>
+
+    <p><strong>Euclidean representation / Gram filter.</strong> Vertices map
+    to the $5$-eigenspace ($\dim 23$) as unit vectors; the Gram matrix is
+    PSD of rank $23$ with inner products fixed by adjacency. A partial graph
+    whose forced Gram matrix is not PSD of rank $\le 23$ cannot extend — a
+    sound pruning oracle for the rigid case.</p>
+
+    <p><strong>Brouwer's table.</strong> A. E. Brouwer's online parameter
+    table of strongly regular graphs; "$?$" marks unknown existence.</p>
+</dl>
+
+<div class="chapter-nav">
+    <a class="prev" href="../part3_frontier/ch05_frontier.html">Ch 5 · Findings &amp; the Decision</a>
+    <a class="next" href="theorems.html">Appendix B · Theorems &amp; Proofs</a>
+</div>
+
+<footer class="book-foot">
+    <p><em>Hunting SRG(69)</em> · Appendix A · Tony Koval · CC-BY-4.0.</p>
+</footer>
+
+</main>
+
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="BookInit.renderMath()"></script>
+<script src="../assets/book.js"></script>
+
+</body>
+</html>

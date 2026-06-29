@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 5 · Findings &amp; the Decision — Hunting SRG(69)</title>
+<link rel="stylesheet" href="../assets/book.css">
+<link rel="stylesheet" href="../assets/print.css" media="print">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body>
+
+<div class="book-title-string">Hunting SRG(69)</div>
+
+<div class="book-shell">
+
+<nav class="nav-sidebar" aria-label="Table of contents">
+    <h2>Front Matter</h2>
+    <ol><li><a href="../index.html">Title &amp; Contents</a></li></ol>
+    <h2>Part I — The Target</h2>
+    <ol>
+        <li><a href="../part1_target/ch01_target.html">1. The Target</a></li>
+        <li><a href="../part1_target/ch02_orbit.html">2. The Orbit-Matrix Reduction</a></li>
+    </ol>
+    <h2>Part II — The Hunt</h2>
+    <ol start="3">
+        <li><a href="../part2_hunt/ch03_automorphisms.html">3. The Automorphism Sweep</a></li>
+        <li><a href="../part2_hunt/ch04_asymmetric.html">4. Cayley &amp; the Asymmetric Wall</a></li>
+    </ol>
+    <h2>Part III — Findings &amp; Frontier</h2>
+    <ol start="5">
+        <li><a href="ch05_frontier.html">5. Findings &amp; the Decision</a></li>
+    </ol>
+    <h2>Appendices</h2>
+    <ol>
+        <li><a href="../appendix/notation.html">A. Notation &amp; Glossary</a></li>
+        <li><a href="../appendix/theorems.html">B. Theorems &amp; Proofs</a></li>
+        <li><a href="../appendix/bibliography.html">C. Bibliography</a></li>
+    </ol>
+</nav>
+
+<main class="chapter" role="main">
+
+<h1 class="chapter-title">
+    <span class="chapter-number">Chapter 5 · Part III</span>
+    Findings &amp; the Decision
+</h1>
+
+<p class="lead">
+The hunt has not settled existence — but it has carved the possibility
+space down to two well-defined regions and a clean decision procedure.
+Here is what is proven, what remains, and exactly what either ending
+requires.
+</p>
+
+<h2>5.1 &nbsp; What is proven</h2>
+
+<p>
+Each of these is a verifiable, exhaustive result — every search ran to a
+real EXHAUSTED / UNSAT certificate, not a timeout:
+</p>
+
+<table>
+    <thead><tr><th>Result</th><th>How</th></tr></thead>
+    <tbody>
+        <tr><td>No automorphism of order $3$</td><td>orbit matrices, all $f$ ($o=16$–$23$): $0$ matrices</td></tr>
+        <tr><td>No automorphism of order $5$</td><td>orbit matrices, $f=4,9$: $0$ matrices</td></tr>
+        <tr><td>No automorphism of order $\ge 7$</td><td>orbit matrices: $0$ matrices</td></tr>
+        <tr><td>No automorphism of order $23$</td><td>prescribed-$\mathbb{Z}_{23}$ SAT: UNSAT ($23$ s)</td></tr>
+        <tr><td>No Cayley graph</td><td>only $\mathbb{Z}_{69}$; no PDS (SA + SAT closure)</td></tr>
+    </tbody>
+</table>
+
+<div class="callout theorem">
+    <div class="callout-title">Standing theorem</div>
+    <p>
+    Any $\mathrm{SRG}(69,20,7,5)$, if it exists, has <strong>no
+    automorphism of odd order</strong> and is <strong>not a Cayley
+    graph</strong>. Its automorphism group is a $2$-group — and once the
+    $p=2$ sweep closes, it would have to be <strong>trivial</strong>.
+    </p>
+</div>
+
+<h2>5.2 &nbsp; What remains — two regions</h2>
+
+<p>
+The unresolved space is exactly two pieces, both cluster-scale:
+</p>
+
+<ul>
+    <li><strong>Involution-symmetric graphs ($p=2$).</strong> The
+        order-$2$ orbit-matrix sweep: $f\in\{1,\dots,19\}$ odd,
+        $o=25$–$34$, hundreds of millions of cubes in the $f=9$–$19$ band
+        and billions overall, with no fixed-block dedup. Embarrassingly
+        parallel via <code>CUBE_RANGE</code> splitting.</li>
+    <li><strong>Rigid graphs.</strong> The full-matrix search with the
+        sound Gram-PSD / Euclidean rank-$23$ filter — per-candidate trees
+        beyond $4.3$ M nodes, the complete triangle-neighbourhood
+        enumeration larger still.</li>
+</ul>
+
+<h2>5.3 &nbsp; The decision procedure</h2>
+
+<div class="callout theorem">
+    <div class="callout-title">Two endings</div>
+    <p>
+    <strong>Existence.</strong> Any $p=2$ orbit matrix that lifts, or any
+    adjacency matrix the Gram search completes, is a genuine
+    $\mathrm{SRG}(69,20,7,5)$ — the <em>first</em> graph on these
+    parameters, resolving the smallest open existence question in
+    Brouwer's table.<br>
+    <strong>Non-existence.</strong> The $p=2$ sweep returns $0$ matrices
+    <em>and</em> the rigid enumeration exhausts with no graph — then
+    $\mathrm{SRG}(69,20,7,5)$ <strong>does not exist</strong>, a refutation
+    in the line of Shpectorov–Zhao's $(85,14,3,2)$.
+    </p>
+    <p>
+    Either way the parameters are settled. A timeout settles nothing — both
+    regions need real exhaustion certificates.
+    </p>
+</div>
+
+<h2>5.4 &nbsp; The distributed plan</h2>
+
+<p>
+Both remaining regions are compute, not insight. The plan:
+</p>
+
+<ol>
+    <li><strong>Distribute the $p=2$ sweep.</strong> Split each $(f,o)$
+        case's cube range across machines (<code>CUBE_RANGE</code>); any
+        non-empty result is a liftable skeleton. Clearing all $f$ proves
+        "no nontrivial automorphism".</li>
+    <li><strong>Distribute the rigid Gram search.</strong> Hand the
+        triangle-neighbourhood candidates to cluster nodes at hour-plus
+        per-candidate budgets; the PSD filter prunes each soundly.</li>
+    <li><strong>Watch for a witness.</strong> A single lift or completion
+        ends the hunt immediately and positively.</li>
+</ol>
+
+<p>
+$\mathrm{SRG}(69,20,7,5)$ is the smallest door in the SRG tables still
+closed. The key is no longer a new idea — it is enough cores pointed at two
+precisely-bounded enumerations, with a sound filter on each. This book is
+the map of which doors are already nailed shut and which one is left to
+push.
+</p>
+
+<div class="chapter-nav">
+    <a class="prev" href="../part2_hunt/ch04_asymmetric.html">Ch 4 · Cayley &amp; the Asymmetric Wall</a>
+    <a class="next" href="../appendix/theorems.html">Appendix B · Theorems &amp; Proofs</a>
+</div>
+
+<footer class="book-foot">
+    <p><em>Hunting SRG(69)</em> · Chapter 5 · Tony Koval · CC-BY-4.0.</p>
+</footer>
+
+</main>
+
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="BookInit.renderMath()"></script>
+<script src="../assets/book.js"></script>
+
+</body>
+</html>

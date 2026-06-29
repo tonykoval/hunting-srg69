@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1 · The Target — Hunting SRG(69)</title>
+<link rel="stylesheet" href="../assets/book.css">
+<link rel="stylesheet" href="../assets/print.css" media="print">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body>
+
+<div class="book-title-string">Hunting SRG(69)</div>
+
+<div class="book-shell">
+
+<nav class="nav-sidebar" aria-label="Table of contents">
+    <h2>Front Matter</h2>
+    <ol><li><a href="../index.html">Title &amp; Contents</a></li></ol>
+    <h2>Part I — The Target</h2>
+    <ol>
+        <li><a href="ch01_target.html">1. The Target</a></li>
+        <li><a href="ch02_orbit.html">2. The Orbit-Matrix Reduction</a></li>
+    </ol>
+    <h2>Part II — The Hunt</h2>
+    <ol start="3">
+        <li><a href="../part2_hunt/ch03_automorphisms.html">3. The Automorphism Sweep</a></li>
+        <li><a href="../part2_hunt/ch04_asymmetric.html">4. Cayley &amp; the Asymmetric Wall</a></li>
+    </ol>
+    <h2>Part III — Findings &amp; Frontier</h2>
+    <ol start="5">
+        <li><a href="../part3_frontier/ch05_frontier.html">5. Findings &amp; the Decision</a></li>
+    </ol>
+    <h2>Appendices</h2>
+    <ol>
+        <li><a href="../appendix/notation.html">A. Notation &amp; Glossary</a></li>
+        <li><a href="../appendix/theorems.html">B. Theorems &amp; Proofs</a></li>
+        <li><a href="../appendix/bibliography.html">C. Bibliography</a></li>
+    </ol>
+</nav>
+
+<main class="chapter" role="main">
+
+<h1 class="chapter-title">
+    <span class="chapter-number">Chapter 1 · Part I</span>
+    The Target
+</h1>
+
+<p class="lead">
+$\mathrm{SRG}(69,20,7,5)$ is the smallest set of strongly-regular-graph
+parameters for which nobody knows whether even a single graph exists. Not
+"how many" — <em>whether any</em>. This book is the record of the hunt to
+settle it, in either direction.
+</p>
+
+<h2>1.1 &nbsp; The parameters</h2>
+
+<p>
+A graph is $\mathrm{SRG}(69,20,7,5)$ if it has $69$ vertices, is
+$20$-regular, every two adjacent vertices share exactly $\lambda=7$ common
+neighbours, and every two non-adjacent vertices share exactly $\mu=5$.
+That is the whole specification. The arithmetic that any SRG must satisfy,
+$(n-k-1)\mu = k(k-\lambda-1)$, checks out:
+$\;(69-20-1)\cdot 5 = 48\cdot 5 = 240 = 20\cdot 12 = k(k-\lambda-1)$. So
+the parameters are <em>feasible</em> at the counting level. They are also
+feasible at every deeper level we know how to test — which is exactly why
+the question is hard.
+</p>
+
+<h2>1.2 &nbsp; The spectrum</h2>
+
+<p>
+The non-principal eigenvalues solve
+$x^2 - (\lambda-\mu)x - (k-\mu) = x^2 - 2x - 15 = 0$, giving $r=5$ and
+$s=-3$. Their multiplicities follow from $1+f+g=69$ and
+$20 + 5f - 3g = \mathrm{tr}(A) = 0$:
+</p>
+
+<div class="callout">
+    <div class="callout-title">Spectrum of any SRG(69,20,7,5)</div>
+    <p style="text-align:center">
+    $\mathrm{spec}(A) = \{\,20^{1},\ \ 5^{23},\ \ (-3)^{45}\,\}.$
+    </p>
+    <p>
+    Both multiplicities are integers ($f=23$, $g=45$) — the
+    <em>integrality condition</em>, the first hurdle most parameter sets
+    fail. This one clears it, and the eigenvalues are integers, so
+    $(69,20,7,5)$ is not even a conference graph; it is an ordinary
+    integral SRG with no built-in symmetry to exploit.
+    </p>
+</div>
+
+<h2>1.3 &nbsp; Why it is still open</h2>
+
+<p>
+A parameter set is "open" when it survives every <em>non-existence</em>
+test yet no construction is known. $(69,20,7,5)$ survives them all:
+</p>
+
+<table>
+    <thead><tr><th>Feasibility test</th><th>Verdict</th></tr></thead>
+    <tbody>
+        <tr><td>Counting identity $(n-k-1)\mu = k(k-\lambda-1)$</td><td>passes ($240=240$)</td></tr>
+        <tr><td>Integral multiplicities $f,g$</td><td>passes ($23,\,45$)</td></tr>
+        <tr><td>Krein conditions</td><td>passes</td></tr>
+        <tr><td>Absolute bound $n \le \tfrac12 f(f+3)$</td><td>passes ($69 \le 299$)</td></tr>
+        <tr><td>$\mu$-bound / Hoffman colouring</td><td>passes</td></tr>
+        <tr><td><strong>Known construction</strong></td><td><strong>none</strong></td></tr>
+        <tr><td><strong>Known non-existence proof</strong></td><td><strong>none</strong></td></tr>
+    </tbody>
+</table>
+
+<div class="callout warning">
+    <div class="callout-title">The question, precisely</div>
+    <p>
+    Brouwer's table of strongly regular graphs lists $(69,20,7,5)$ with a
+    bare "<strong>?</strong>". Two graphs of nearby open parameters were
+    recently settled — $\mathrm{SRG}(65,32,15,16)$ <em>constructed</em> by
+    Gritsenko (2021), $\mathrm{SRG}(85,14,3,2)$ <em>refuted</em> by
+    Shpectorov–Zhao (2025) — leaving $(69,20,7,5)$ as the
+    <strong>smallest open existence question</strong> in the table. Does
+    one exist? Nobody knows. This is the genuine article: an unsolved
+    problem, not a bookkeeping gap.
+    </p>
+</div>
+
+<h2>1.4 &nbsp; How this differs from a counting hunt</h2>
+
+<p>
+This book has a sister, <em>Hunting SRG(37)</em>, which asks whether a
+known catalog of $6802$ graphs is <em>complete</em>. That is a counting
+question, and its target is provably rigid, so symmetry-based methods are
+useless there. Here the situation is opposite and, in one respect,
+friendlier: because we are asking <em>does any exist</em>, we may freely
+<em>assume</em> a symmetry, search for a graph that has it, and — if we
+find none — rule that symmetry out. Chapter 2 turns this into the engine
+that has already closed most of the symmetric search space.
+</p>
+
+<p>
+The two outcomes of the hunt are equally valuable:
+</p>
+
+<div class="callout theorem">
+    <div class="callout-title">The two endings</div>
+    <p>
+    <strong>Existence.</strong> One orbit matrix that lifts, or one valid
+    adjacency matrix, and $\mathrm{SRG}(69,20,7,5)$ <em>exists</em> — the
+    first graph ever on these parameters, resolving the smallest open case.<br>
+    <strong>Non-existence.</strong> Every automorphism order ruled out and
+    the fully-asymmetric space exhausted, and the parameters are
+    <em>refuted</em> — a result in the line of Shpectorov–Zhao.
+    </p>
+</div>
+
+<div class="chapter-nav">
+    <a class="prev" href="../index.html">Title &amp; Contents</a>
+    <a class="next" href="ch02_orbit.html">Ch 2 · The Orbit-Matrix Reduction</a>
+</div>
+
+<footer class="book-foot">
+    <p><em>Hunting SRG(69)</em> · Chapter 1 · Tony Koval · CC-BY-4.0.</p>
+</footer>
+
+</main>
+
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="BookInit.renderMath()"></script>
+<script src="../assets/book.js"></script>
+
+</body>
+</html>
