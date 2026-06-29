@@ -30,6 +30,7 @@
     <h2>Part III — Findings &amp; Frontier</h2>
     <ol start="5">
         <li><a href="../part3_frontier/ch05_frontier.html">5. Findings &amp; the Decision</a></li>
+        <li><a href="../part3_frontier/ch06_tools.html">6. Tools &amp; Reproducibility</a></li>
     </ol>
     <h2>Appendices</h2>
     <ol>
@@ -105,6 +106,22 @@ small — under the two equations above, plus canonical-form dedup to kill
 relabellings — is a finite computation a desktop can finish.
 </p>
 
+<div class="interactive">
+    <span class="interactive-label">Orbit-matrix size calculator</span>
+    <div class="controls">
+        <label for="om-p">prime $p$:</label>
+        <select id="om-p"><option>2</option><option selected>3</option><option>5</option><option>23</option></select>
+        <label>fixed points $f$: <input id="om-f" type="number" value="0" style="width:4em"></label>
+    </div>
+    <div id="om-out" style="font-family:var(--font-mono);font-size:0.9em;margin-top:0.4em"></div>
+    <p style="font-size:0.85em;color:#555;margin-top:0.4em">
+        A prescribed order-$p$ automorphism with $f$ fixed points is
+        admissible only when $69-f$ is divisible by $p$ and $f\le 32$
+        (the fixed-point bound). The orbit matrix is $b\times b$ with
+        $b=f+o$, $o=(69-f)/p$ — far smaller than $69$.
+    </p>
+</div>
+
 <h2>2.3 &nbsp; Two outcomes, both decisive</h2>
 
 <p>
@@ -154,6 +171,35 @@ larger primes, and the striking order-$23$ case.
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
         onload="BookInit.renderMath()"></script>
 <script src="../assets/book.js"></script>
+
+<script>
+/* ---------- Orbit-matrix size calculator ---------- */
+(function () {
+    "use strict";
+    const out = document.getElementById("om-out");
+    if (!out) return;
+    function calc() {
+        const p = +document.getElementById("om-p").value;
+        const f = +document.getElementById("om-f").value;
+        const rem = (69 - f) % p;
+        const okDiv = rem === 0 && (69 - f) >= 0;
+        const okFix = f <= 32 && f >= 0;
+        if (!okDiv || !okFix) {
+            const why = !okDiv ? `69 − ${f} = ${69 - f} not divisible by ${p}`
+                                : `f = ${f} exceeds the fixed-point bound 32`;
+            out.innerHTML = `<span style="color:#b00020">inadmissible — ${why}</span>`;
+            return;
+        }
+        const o = (69 - f) / p, b = f + o;
+        out.innerHTML = `<span style="color:#2e7d32">admissible</span>: ` +
+            `orbits o = (69 − ${f})/${p} = <strong>${o}</strong>, ` +
+            `orbit matrix ${b} × ${b} (vs 69 × 69)`;
+    }
+    document.getElementById("om-p").addEventListener("change", calc);
+    document.getElementById("om-f").addEventListener("input", calc);
+    calc();
+})();
+</script>
 
 </body>
 </html>

@@ -20,6 +20,7 @@ CHAPTERS = [
     "part2_hunt/ch03_automorphisms.html",
     "part2_hunt/ch04_asymmetric.html",
     "part3_frontier/ch05_frontier.html",
+    "part3_frontier/ch06_tools.html",
     "appendix/notation.html",
     "appendix/theorems.html",
     "appendix/bibliography.html",

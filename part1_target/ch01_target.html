@@ -30,6 +30,7 @@
     <h2>Part III — Findings &amp; Frontier</h2>
     <ol start="5">
         <li><a href="../part3_frontier/ch05_frontier.html">5. Findings &amp; the Decision</a></li>
+        <li><a href="../part3_frontier/ch06_tools.html">6. Tools &amp; Reproducibility</a></li>
     </ol>
     <h2>Appendices</h2>
     <ol>
@@ -153,6 +154,25 @@ The two outcomes of the hunt are equally valuable:
     </p>
 </div>
 
+<div class="interactive">
+    <span class="interactive-label">Feasibility calculator (pre-loaded with SRG(69,20,7,5))</span>
+    <div class="controls">
+        <label>$n$ <input id="fc-n" type="number" value="69" style="width:4em"></label>
+        <label>$k$ <input id="fc-k" type="number" value="20" style="width:4em"></label>
+        <label>$\lambda$ <input id="fc-l" type="number" value="7" style="width:4em"></label>
+        <label>$\mu$ <input id="fc-m" type="number" value="5" style="width:4em"></label>
+    </div>
+    <table>
+        <thead><tr><th>Quantity / test</th><th>Value</th></tr></thead>
+        <tbody id="fc-body"></tbody>
+    </table>
+    <p style="font-size:0.85em;color:#555;margin-top:0.4em">
+        Edit the parameters: the eigenvalues, multiplicities and standard
+        feasibility tests recompute live. $(69,20,7,5)$ passes them all —
+        which is exactly why it is open.
+    </p>
+</div>
+
 <div class="chapter-nav">
     <a class="prev" href="../index.html">Title &amp; Contents</a>
     <a class="next" href="ch02_orbit.html">Ch 2 · The Orbit-Matrix Reduction</a>
@@ -170,6 +190,42 @@ The two outcomes of the hunt are equally valuable:
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
         onload="BookInit.renderMath()"></script>
 <script src="../assets/book.js"></script>
+
+<script>
+/* ---------- Feasibility calculator ---------- */
+(function () {
+    "use strict";
+    const ids = ["fc-n", "fc-k", "fc-l", "fc-m"];
+    const body = document.getElementById("fc-body");
+    if (!body) return;
+    function row(t, v, ok) {
+        const col = ok === true ? "#2e7d32" : ok === false ? "#b00020" : "#333";
+        return `<tr><td>${t}</td><td style="font-family:var(--font-mono);font-size:0.85em;color:${col}">${v}</td></tr>`;
+    }
+    function compute() {
+        const n = +document.getElementById("fc-n").value,
+              k = +document.getElementById("fc-k").value,
+              l = +document.getElementById("fc-l").value,
+              m = +document.getElementById("fc-m").value;
+        const disc = (l - m) * (l - m) + 4 * (k - m);
+        if (disc < 0) { body.innerHTML = row("eigenvalues", "non-real — infeasible", false); return; }
+        const sq = Math.sqrt(disc);
+        const r = ((l - m) + sq) / 2, s = ((l - m) - sq) / 2;
+        const g = (k + r * (n - 1)) / (r - s), f = (n - 1) - g;
+        const fInt = Math.abs(f - Math.round(f)) < 1e-9 && Math.abs(g - Math.round(g)) < 1e-9;
+        const count = (n - k - 1) * m === k * (k - l - 1);
+        const intEig = Math.abs(sq - Math.round(sq)) < 1e-9;
+        let html = "";
+        html += row("eigenvalues r, s", (intEig ? r.toFixed(0) + ", " + s.toFixed(0) : r.toFixed(3) + ", " + s.toFixed(3)), null);
+        html += row("multiplicities f, g", (fInt ? Math.round(f) + ", " + Math.round(g) : f.toFixed(2) + ", " + g.toFixed(2)), fInt);
+        html += row("counting identity", count ? "passes (" + (n - k - 1) * m + " = " + k * (k - l - 1) + ")" : "FAILS", count);
+        html += row("integral multiplicities", fInt ? "passes" : "FAILS", fInt);
+        body.innerHTML = html;
+    }
+    ids.forEach(id => document.getElementById(id).addEventListener("input", compute));
+    compute();
+})();
+</script>
 
 </body>
 </html>
