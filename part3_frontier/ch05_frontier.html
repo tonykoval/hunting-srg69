@@ -139,6 +139,52 @@ Both remaining regions are compute, not insight. The plan:
         ends the hunt immediately and positively.</li>
 </ol>
 
+<h2>5.5 &nbsp; New levers from the SRG(37) campaign &nbsp;<em>(2026-07)</em></h2>
+
+<p>
+In July 2026 the sibling hunt for a $6803$rd $\mathrm{SRG}(37,18,8,9)$
+turned its "cluster-scale" residual into a single-desktop campaign. Both
+unresolved regions here are the same shape of workload, and three levers
+transfer directly (untested on $69$ — that is the point of listing them):
+</p>
+
+<ul>
+    <li><strong>The full static lex chain.</strong> On the two-graph(38)
+        SMS search, the canonicity propagator turned out to cost $0.4\%$ of
+        wall — the wall was raw CDCL depth. Encoding the row-lex ordering
+        over <em>all</em> consecutive row pairs as static, unit-propagatable
+        clauses (not a truncated chain, not propagator-only) gave a measured
+        $50$–$70\times$ on hard cubes, with the enumerated model set
+        verified bit-identical (implied-clause soundness). Any row-lex
+        symmetry-broken encoding of the $p=2$ sweep or the rigid Gram search
+        should try this transfer <em>before</em> buying more cores.</li>
+    <li><strong>Recursive adaptive cube-and-conquer.</strong> Queue of
+        $(\text{cube},\text{size})$ nodes, $600$-second budget each, timeout
+        ⇒ push $16$ finer children. Measured on SRG(37): $15/16$ children of
+        a hard cube exhaust in ${\sim}13$ s, so the hard core isolates
+        itself $16\times$ tighter per level unattended. The billions-of-cubes
+        $f=9$–$19$ band is exactly the workload this replaces — the
+        <code>CUBE_RANGE</code> splitting stays, but no cube is ever a
+        $24$-hour monolith again.</li>
+    <li><strong>Deep-pinned GPU population search.</strong> A
+        defect-minimising SLS ($56{,}000$ candidates/s at $n=38$ on a
+        desktop GPU) hunting <em>inside the surviving cubes</em> of the
+        exact search rather than from random starts. For these parameters
+        the fitness is $\lVert A^2 - 2A - 5J - 15I\rVert^2$ (the defect
+        against $A^2 = 15I + 2A + 5J$), with the orbit-matrix or cube-fixed
+        entries pinned. Find-only — a free parallel shot at the witness
+        while the CPUs chase certificates.</li>
+</ul>
+
+<p>
+And one derivable analogue: the feasible-characteristic-polynomial endgame
+tables (Greaves–Syatriadi LP enumeration, used on the conference-matrix
+side). With integer spectrum $\{20,\,5^{23},\,(-3)^{45}\}$, Cauchy
+interlacing pins growing powers of $(x-5)$ and $(x+3)$ in every large
+principal submatrix, leaving a small integer cofactor to enumerate — a
+sound deep-node filter for whichever enumeration reaches the rigid core.
+</p>
+
 <p>
 $\mathrm{SRG}(69,20,7,5)$ is the smallest door in the SRG tables still
 closed. The key is no longer a new idea — it is enough cores pointed at two
