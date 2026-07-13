@@ -183,7 +183,11 @@ transfer directly (untested on $69$ — that is the point of listing them):
         itself $16\times$ tighter per level unattended. The billions-of-cubes
         $f=9$–$19$ band is exactly the workload this replaces — the
         <code>CUBE_RANGE</code> splitting stays, but no cube is ever a
-        $24$-hour monolith again.</li>
+        $24$-hour monolith again. <em>Measured limit (2026-07-13):</em> on
+        SRG(37)'s own terminal residue the shed rate collapses to
+        ${\sim}11\%$ and splitting <em>grows</em> the hard set — expect the
+        recursion to grind the bulk and then hit a wall class that needs a
+        different idea, not more depth.</li>
     <li><strong>Deep-pinned GPU population search.</strong> A
         defect-minimising SLS ($56{,}000$ candidates/s at $n=38$ on a
         desktop GPU) hunting <em>inside the surviving cubes</em> of the
