@@ -112,6 +112,17 @@ real EXHAUSTED / UNSAT certificate, not a timeout:
     enumeration has now been shown to be capable of undercounting.
     </p>
     <p>
+    <em>Documentary confirmation (2026-08-10):</em> Table 9 of Behbahani's
+    thesis (Concordia, 2011) — the full computer-run record for
+    $(69,20,7,5)$ — <strong>starts at $p=5$; the prime $3$ does not appear at
+    all</strong>. The table also settles two neighbouring points: their
+    $p=5$ lifts ($f=4$: $27$ matrices, $f=9$: $1$) are marked
+    <em>finished with $0$ graphs found</em>, and their $p=23$ row ($2$
+    matrices, $0$ lifts) independently matches this project's SAT theorem.
+    The order-$3$ question below is therefore, on the written record, exactly
+    the gap this campaign is closing.
+    </p>
+    <p>
     The demonstration is not hypothetical. On $\mathrm{SRG}(25,12,5,6)$ with
     $p=5$, $f=0$ the standard backtracking generator returned <strong>one</strong>
     orbit matrix where <strong>two</strong> exist. Both are valid — brute-forcing
@@ -191,16 +202,44 @@ just as the paper states.
 </p>
 
 <div class="callout definition">
-    <div class="callout-title">Running now</div>
+    <div class="callout-title">Running now <em>(updated 2026-08-10)</em></div>
     <p>
-    The $f=0$ root $d=5$ is under a CP-SAT recursive box-split (persistent
-    ledger, resume-safe). It has <strong>not</strong> closed: the root returns
-    UNKNOWN at a $900$-second budget and is splitting. A scouting pass over the
-    seven $f>0$ fixed-point counts closes $10$–$14$ nodes apiece at a $45$-second
-    budget but none drains. So the honest position is that the order-$3$ question
-    is now <em>finite and precisely bounded</em> — eighteen roots instead of an
-    open-ended sweep — but <em>not yet re-closed</em>. A single root is a better
-    aimed problem, not a solved one.
+    The campaign is distributed: a public Docker image
+    (<code>tonykoval/srg69-worker</code>) carries both CP-SAT engines, the
+    validated root pins, and a snapshot of the home ledgers, and a $48$-thread
+    server runs all eighteen roots with $24$ continuously-scheduled workers —
+    roughly $24\times$ the original single-worker attack. Field totals so far:
+    over $30{,}000$ INFEASIBLE certificates, no feasible matrix. The structure
+    that has emerged: the $f=0$ tree reduced to a hard core of
+    <strong>$51$ spines</strong> at the full split depth (all $22$ row-0
+    coordinates pinned); the $f=3$ tree is the monster of the family
+    ($27{,}000{+}$ certificates and still draining); $f=6$–$21$ queue behind
+    it. Each full cycle doubles the node budget and re-attacks the surviving
+    cores — escalating pressure, unattended. The honest position is unchanged
+    in kind: <em>finite, precisely bounded, under the heaviest attack these
+    parameters have ever received — and not yet closed</em>.
+    </p>
+</div>
+
+<div class="callout theorem">
+    <div class="callout-title">The fire-drill that saved a future discovery
+    (2026-08-10)</div>
+    <p>
+    A HIT — a FEASIBLE orbit matrix — must be <em>lifted</em> to an actual
+    graph. Rather than wait for the real event, the lift pipeline was drilled
+    on the true quotient matrices of $T(9) = \mathrm{srg}(36,14,7,4)$, which
+    provably lift. The $f=0$ path passed. <strong>The $f>0$ path failed</strong>
+    — $8{,}721$ candidate models, zero valid graphs, from a matrix that
+    certainly lifts. The cause was a silent convention mismatch (the lift read
+    the fix-orbit block as a $0/1$ indicator; true quotients store counts
+    $\{0,3\}$), and since <strong>$17$ of the $18$ roots have $f>0$</strong>,
+    a real discovery would have lifted to "nothing" and risked being dismissed
+    as a spurious matrix. The tool now normalises both conventions
+    (re-drilled: exactly $1$ model, $1$ valid graph, independently
+    re-verified), a one-command extractor re-verifies any HIT's arithmetic
+    before solver time is spent, and a five-step runbook turns a HIT into a
+    twice-verified graph. Moral: <em>drill the good-news path before the good
+    news arrives</em>.
     </p>
 </div>
 
