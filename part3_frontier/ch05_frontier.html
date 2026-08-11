@@ -202,18 +202,19 @@ just as the paper states.
 </p>
 
 <div class="callout definition">
-    <div class="callout-title">Running now <em>(updated 2026-08-10)</em></div>
+    <div class="callout-title">Running now <em>(updated 2026-08-11)</em></div>
     <p>
     The campaign is distributed: a public Docker image
     (<code>tonykoval/srg69-worker</code>) carries both CP-SAT engines, the
     validated root pins, and a snapshot of the home ledgers, and a $48$-thread
     server runs all eighteen roots with $24$ continuously-scheduled workers —
     roughly $24\times$ the original single-worker attack. Field totals so far:
-    over $30{,}000$ INFEASIBLE certificates, no feasible matrix. The structure
+    over $34{,}000$ INFEASIBLE certificates, no feasible matrix. The structure
     that has emerged: the $f=0$ tree reduced to a hard core of
     <strong>$51$ spines</strong> at the full split depth (all $22$ row-0
-    coordinates pinned); the $f=3$ tree is the monster of the family
-    ($27{,}000{+}$ certificates and still draining); $f=6$–$21$ queue behind
+    coordinates pinned); the $f=3$ tree is the monster of the family — and
+    the server's current meal, at roughly $29{,}000$ certificates
+    <em>per day</em> ($31{,}000{+}$ and climbing); $f=6$–$21$ queue behind
     it. Each full cycle doubles the node budget and re-attacks the surviving
     cores — escalating pressure, unattended. The honest position is unchanged
     in kind: <em>finite, precisely bounded, under the heaviest attack these
