@@ -90,13 +90,32 @@ runs below:
 </div>
 
 <div class="callout theorem">
-    <div class="callout-title">Theorem (no odd-prime automorphism)</div>
+    <div class="callout-title">Theorem (no automorphism of order $5$ or any prime $\ge 7$)</div>
     <p>
-    No $\mathrm{SRG}(69,20,7,5)$ admits an automorphism of order $3$, $5$,
-    or any prime $\ge 7$. The orbit-matrix enumeration is exhaustive — all
-    $f$ for $p=3$ (orbit counts $16$–$23$, up to $1{,}177{,}968$ raw
-    cubes), both $f$ for $p=5$, and the larger primes — and every case
-    yields $0$ matrices. $\square$
+    No $\mathrm{SRG}(69,20,7,5)$ admits an automorphism of order $5$ or of
+    any prime order $\ge 7$. Both $f$ for $p=5$ and every admissible
+    $(p,f)$ at the larger primes yield $0$ orbit matrices under complete
+    enumeration. $\square$
+    </p>
+</div>
+
+<div class="callout warning">
+    <div class="callout-title">Correction (2026-08-21): the $p=3$ row is not a theorem yet</div>
+    <p>
+    An earlier version of this section stated the order-$3$ exclusion as
+    proven. That claim came from the pre-audit enumeration engine, whose
+    diagonal handling was later shown to silently drop matrices at odd
+    primes — precisely the class of "zero" this project no longer accepts.
+    The order-$3$ case is <em>the live campaign of this book</em>: the
+    fleet is re-deriving it root by root with the audited engine, and the
+    question stays open until every lane carries a completeness
+    certificate (or a hit). Independent context: Behbahani's 2009 thesis
+    (Thm 4.2) pins the full prime frontier at $\{2,3\}$ — excluding $5$
+    and everything larger, but explicitly <em>retaining</em> $3$. Our wall
+    of zeros at $5$ and $\ge 7$ was re-verified against those tables this
+    week ($p=17,19$ re-run independently in seconds at the prototype
+    layer). What remains open is exactly $p \in \{2, 3\}$: the two
+    chapters that follow.
     </p>
 </div>
 
