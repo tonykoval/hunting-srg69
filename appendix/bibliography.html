@@ -30,6 +30,7 @@
     <ol start="5">
         <li><a href="../part3_frontier/ch05_frontier.html">5. Findings &amp; the Decision</a></li>
         <li><a href="../part3_frontier/ch06_tools.html">6. Tools &amp; Reproducibility</a></li>
+        <li><a href="../part3_frontier/ch07_the_end.html">7. The End of the Hunt</a></li>
     </ol>
     <h2>Appendices</h2>
     <ol>
@@ -70,6 +71,44 @@
         open case resolved by <em>non-existence</em>.</li>
     <li>P. J. Cameron, <em>Strongly regular graphs</em>, in
         <em>Topics in Algebraic Graph Theory</em>, CUP, 2004.</li>
+    <li>T. Koval, <em>There is no strongly regular graph with parameters
+        $(69,20,7,5)$</em>, write-up, September 2026:
+        <code>docs/paper/srg69.tex</code> in
+        <code>github.com/tonykoval/orbit-gen</code>. In preparation for
+        review; not yet published or peer-reviewed. The full proof outlined
+        in Chapter 7.</li>
+    <li>R. E. Borcherds, <em>The Leech lattice and other lattices</em>,
+        PhD thesis, University of Cambridge, 1985 (arXiv:math/9911195); and
+        <em>Tables of lattices</em>,
+        <code>math.berkeley.edu/~reb/lattices/</code>. The $665$ odd
+        unimodular lattices of dimension $25$ behind the determinant-$8$
+        catalogue of Chapter 7.</li>
+    <li>A. E. Brouwer, A. R. Calderbank, <em>An Erdős–Ko–Rado theorem for
+        regular intersecting families of octads</em>, Graphs Combin. 2
+        (1986) 309–316. Used for the octad case of the Leech lattice
+        (§7.3).</li>
+    <li>J. H. Conway, N. J. A. Sloane, <em>Sphere Packings, Lattices and
+        Groups</em>, 3rd ed., Springer, 1999. The Leech lattice,
+        $\mathrm{Co}_0$, the Niemeier lattices and their glue codes.</li>
+    <li>V. V. Nikulin, <em>Integral symmetric bilinear forms and some of
+        their applications</em>, Math. USSR Izv. 14 (1980) 103–167.
+        Discriminant forms and genera (§7.2).</li>
+    <li>N. Wetzler, M. J. H. Heule, W. A. Hunt, <em>DRAT-trim: efficient
+        checking and trimming using expressive clausal proofs</em>, in
+        <em>SAT 2014</em>, LNCS 8561, 422–429. The checker for every UNSAT
+        proof of engine 2 (§7.6, §7.8).</li>
+    <li>A. Biere, K. Fazekas, M. Fleury, M. Heisinger, <em>CaDiCaL, Kissat,
+        Paracooba, Plingeling and Treengeling entering the SAT Competition
+        2020</em>, Proc. SAT Competition 2020. The kissat solver (version
+        4.0.4) of engine 2.</li>
+    <li>B. D. McKay, A. Piperno, <em>Practical graph isomorphism, II</em>,
+        J. Symbolic Comput. 60 (2014) 94–112. nauty, used for pool symmetry
+        groups and the Leech octad group order.</li>
+    <li>Software of Chapter 7: The PARI Group, <em>PARI/GP</em> 2.15.4;
+        C. Fieker, W. Hart, T. Hofmann, F. Johansson, <em>Nemo/Hecke:
+        computer algebra and number theory packages for Julia</em>, ISSAC
+        2017, 157–164; L. Perron, F. Didier, <em>CP-SAT</em>, Google
+        OR-Tools (engine 1).</li>
     <li>The companion volume, <em>Hunting SRG(37)</em>
         (<code>github.com/tonykoval/hunting-srg37</code>), on the related
         catalog-completeness question for the conference parameters

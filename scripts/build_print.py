@@ -21,6 +21,7 @@ CHAPTERS = [
     "part2_hunt/ch04_asymmetric.html",
     "part3_frontier/ch05_frontier.html",
     "part3_frontier/ch06_tools.html",
+    "part3_frontier/ch07_the_end.html",
     "appendix/notation.html",
     "appendix/theorems.html",
     "appendix/bibliography.html",

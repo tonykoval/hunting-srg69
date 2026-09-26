@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 7 · The End of the Hunt — Hunting SRG(69)</title>
+<link rel="stylesheet" href="../assets/book.css">
+<link rel="stylesheet" href="../assets/print.css" media="print">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+<body>
+
+
+<div class="book-shell">
+
+<nav class="nav-sidebar" aria-label="Table of contents">
+    <h2>Front Matter</h2>
+    <ol><li><a href="../index.html">Title &amp; Contents</a></li></ol>
+    <h2>Part I — The Target</h2>
+    <ol>
+        <li><a href="../part1_target/ch01_target.html">1. The Target</a></li>
+        <li><a href="../part1_target/ch02_orbit.html">2. The Orbit-Matrix Reduction</a></li>
+    </ol>
+    <h2>Part II — The Hunt</h2>
+    <ol start="3">
+        <li><a href="../part2_hunt/ch03_automorphisms.html">3. The Automorphism Sweep</a></li>
+        <li><a href="../part2_hunt/ch04_asymmetric.html">4. Cayley &amp; the Asymmetric Wall</a></li>
+    </ol>
+    <h2>Part III — Findings &amp; Frontier</h2>
+    <ol start="5">
+        <li><a href="ch05_frontier.html">5. Findings &amp; the Decision</a></li>
+        <li><a href="ch06_tools.html">6. Tools &amp; Reproducibility</a></li>
+        <li><a href="ch07_the_end.html">7. The End of the Hunt</a></li>
+    </ol>
+    <h2>Appendices</h2>
+    <ol>
+        <li><a href="../appendix/notation.html">A. Notation &amp; Glossary</a></li>
+        <li><a href="../appendix/theorems.html">B. Theorems &amp; Proofs</a></li>
+        <li><a href="../appendix/bibliography.html">C. Bibliography</a></li>
+    </ol>
+</nav>
+
+<main class="chapter" role="main">
+
+<h1 class="chapter-title">
+    <span class="chapter-number">Chapter 7 · Part III</span>
+    The End of the Hunt: Why $\mathrm{SRG}(69,20,7,5)$ Does Not Exist
+</h1>
+
+<p class="lead">
+The hunt is over, and the answer is <strong>no</strong>. It did not come
+from either of the two regions Chapter 5 left open: the involution sweep
+and the rigid Gram search were never finished. It came from a route that
+assumes no symmetry at all and never builds a graph. The $69$ vertices
+become vectors, the vectors lie in a lattice, and the lattices that could
+hold them can be listed completely.
+</p>
+
+<div class="callout theorem">
+    <div class="callout-title">Theorem 7.1 (2026-09-26)</div>
+    <p>
+    There is no strongly regular graph with parameters $(69,20,7,5)$.
+    </p>
+    <p>
+    <strong>Corollary 7.2.</strong> There is no quasi-symmetric
+    $2$-$(46,16,8)$ design with block intersection numbers $4$ and $6$.
+    Its block graph, with two blocks adjacent when they meet in $4$ points,
+    would be an $\mathrm{SRG}(69,20,7,5)$ (a short spectral argument,
+    Appendix B, Corollary B.7).
+    </p>
+</div>
+
+<div class="callout warning">
+    <div class="callout-title">Status of the proof</div>
+    <p>
+    This is a <strong>computer-assisted proof</strong>. It was banked in the
+    project on 2026-09-26 after two independent solver engines, two
+    independent audits and a review of the write-up. The full write-up has
+    every lemma proved, the data tables, and the complete source code in its
+    appendices. It is <code>docs/paper/srg69.tex</code> (and
+    <code>srg69.pdf</code>) in the
+    <a href="https://github.com/tonykoval/orbit-gen">orbit-gen</a>
+    repository. It is being prepared for review by a mathematician. It has
+    <em>not</em> been published or peer-reviewed. This chapter is an outline
+    in the book's own words. Where it and the write-up differ, the write-up
+    is authoritative.
+    </p>
+</div>
+
+<h2>7.1 &nbsp; From a graph to $69$ vectors</h2>
+
+<p>
+Let $A$ be the adjacency matrix of a putative $\mathrm{SRG}(69,20,7,5)$.
+Its eigenvalues are $20$, $5$ and $-3$, with multiplicities $1$, $23$ and
+$45$ (Chapter 1). Shift by $3I$ and add the all-ones matrix $J$:
+</p>
+
+<p style="text-align:center">
+$\displaystyle G = 3I + A + J$
+</p>
+
+<p>
+has eigenvalue $3+20+69=92$ on the all-ones vector, $3+5=8$ with
+multiplicity $23$, and $3-3=0$ with multiplicity $45$. So $G$ is positive
+semidefinite of rank $24$. It is therefore the Gram matrix of $69$ vectors
+$v_1,\dots,v_{69}$ spanning $\mathbb{R}^{24}$, with
+</p>
+
+<p style="text-align:center">
+$\displaystyle |v_i|^2 = 4,\qquad
+\langle v_i,v_j\rangle = \begin{cases} 2 & \text{if } i\sim j,\\ 1 & \text{otherwise.}\end{cases}$
+</p>
+
+<p>
+Compare Chapter 4, which used the $5$-eigenspace alone (dimension $23$,
+real coordinates). Adding $J$ costs one dimension and makes every inner
+product an <em>integer</em>. The vertices then span an <em>even lattice</em>
+$L_X$ of rank $24$, the <strong>vertex lattice</strong>. We call a family
+of $69$ vectors with this Gram matrix a <em>configuration</em>, and any
+lattice containing one a <em>host</em>. The theorem says that no
+configuration exists.
+</p>
+
+<p>
+Two facts about $L_X$ drive everything. Let $s=\sum_i v_i$. Every vertex
+pairs $4 + 2\cdot 20 + 1\cdot 48 = 92$ with $s$. The second-moment operator
+$M=\sum_i v_iv_i^{\mathsf T}$ has the same nonzero spectrum as $G$, which
+pins it down completely:
+</p>
+
+<p style="text-align:center">
+$\displaystyle M = 8I + 7\,uu^{\mathsf T},\qquad u = s/23,\qquad |u|^2 = 12,\qquad \langle v_i,u\rangle = 4 .$
+</p>
+
+<p>
+<strong>The first surprise: $u$ lies in $L_X$.</strong> For a vertex $v$,
+$Mv=\sum_j\langle v_j,v\rangle v_j$ is an integer combination of vertices,
+and it also equals $8v+28u$. So $28u\in L_X$. Since $23u=s\in L_X$ and
+$\gcd(28,23)=1$, $u\in L_X$. The same computation applied to a dual vector
+shows $8L_X^{\#}\subseteq L_X$, so $\det L_X$ is a power of $2$.
+</p>
+
+<div class="callout definition">
+    <div class="callout-title">The moment identities (the workhorse)</div>
+    <p>
+    Let $N$ be any lattice containing $L_X$, and $x$ a vector of its dual
+    $N^{\#}$. Then the pairings $c_i=\langle x,v_i\rangle$ are integers,
+    and with $h=\langle x,u\rangle$:
+    </p>
+    <p style="text-align:center">
+    $\displaystyle \sum_i c_i = 23h,\qquad \sum_i c_i^2 = 8|x|^2 + 7h^2,\qquad (Ac)_i = 5c_i + 5h .$
+    </p>
+    <p>
+    Summing $c(c\mp1)\ge 0$ over the $69$ integers gives the inequality
+    $8|x|^2+7h^2\ge 23|h|$. A single short dual vector that violates it
+    rules out a host outright. Later this one line closes thousands of cases
+    without any search.
+    </p>
+</div>
+
+<h2>7.2 &nbsp; Only two kinds of host</h2>
+
+<p>
+Enlarge $L_X$ to a <em>maximal</em> even overlattice $N$. It still contains
+the vertices and $u$. Maximality forces the discriminant form $q_N$ on
+$D(N)=N^{\#}/N$ to be <em>anisotropic</em>: otherwise an isotropic class
+could be adjoined. Since $8N^{\#}\subseteq N$, $D(N)$ is a $2$-group, and
+anisotropy forces its exponent down to at most $4$. An exact enumeration of
+the anisotropic forms on small $2$-groups, re-done by an independent brute
+force, then combines with Milgram's formula. The formula says the Gauss-sum
+signature of $q_N$ equals the rank, $24\equiv 0 \pmod 8$. Only two cases
+survive:
+</p>
+
+<div class="callout theorem">
+    <div class="callout-title">The dichotomy</div>
+    <p>
+    Either $N$ is <strong>even unimodular</strong> of rank $24$, that is,
+    one of the $24$ <strong>Niemeier lattices</strong> (the Leech lattice
+    $\Lambda$ or one of the $23$ with roots). Or $\det N = 8$ with
+    discriminant form $\langle 7/4\rangle\oplus\langle 1/2\rangle$. All
+    lattices of the second kind form a single genus $\mathcal{G}_8$
+    (Nikulin, 1980).
+    </p>
+</div>
+
+<p>
+One more hand lemma is used everywhere below. For a <strong>root</strong>
+$r$ (a norm-$2$ vector) of a host that contains $u$, put
+$h=\langle r,u\rangle$. Then $h\in\{0,\pm1\}$. If $h=0$, every
+$\langle r,v_i\rangle\in\{0,\pm1\}$. If $h=\pm1$, every
+$\langle r,v_i\rangle\in\{0,h\}$. For instance, $h=2$ would need
+$\sum c_i^2 = 44$ and $\sum c_i = 46$, so $\sum c_i(c_i-1) = -2 &lt; 0$.
+</p>
+
+<h2>7.3 &nbsp; The Leech lattice</h2>
+
+<p>
+If $N=\Lambda$, then $u$ is a norm-$12$ vector of the Leech lattice. The
+norm-$12$ vectors fall into exactly two orbits of its automorphism group
+$\mathrm{Co}_0$, and this is proved by counting:
+</p>
+
+<ul>
+    <li><strong>Orbit $\mathcal{A}$</strong>, of $(2^{24})/\sqrt8$. Its
+        stabiliser has order $|M_{24}|=244{,}823{,}040$, confirmed by a nauty
+        computation on the $759$ octad vectors. So
+        $|\mathcal{A}| = |\mathrm{Co}_0|/|M_{24}| = 33{,}965{,}568{,}000$.</li>
+    <li><strong>Set $\mathcal{B}$</strong>, the sums $v_1+v_2$ of two minimal
+        vectors at inner product $2$. The pair is determined by the sum, so
+        $|\mathcal{B}| = 196{,}560\cdot 4{,}600/2 = 452{,}088{,}000$.</li>
+    <li>Together these are $34{,}417{,}656{,}000$ vectors, exactly the number
+        of norm-$12$ vectors given by the theta series of $\Lambda$.</li>
+</ul>
+
+<p>
+<strong>Case $\mathcal{A}$.</strong> The only minimal vectors that pair $4$
+with $u$ are the $759$ vectors supported on the octads of the Golay code.
+So the $69$ vertices would be $69$ octads, meeting pairwise in $2$ or $4$
+points. The moment identity $M=8I+7uu^{\mathsf T}$ then says that every
+point lies in $23$ of them and every pair of points in $7$. That is a
+quasi-symmetric $2$-$(24,8,7)$ design made of octads, and
+<strong>Brouwer and Calderbank (1986)</strong> proved that no such family
+exists.
+</p>
+
+<p>
+<strong>Case $\mathcal{B}$.</strong> Write $u=v_1+v_2$. Every candidate
+vertex must pair $2$ with both $v_1$ and $v_2$, so it lies in the hyperplane
+$(v_1-v_2)^{\perp}$. The vertices span $\mathbb{R}^{24}$, which is a
+contradiction. (The candidate pool has $891$ vectors, of rank $23$.)
+</p>
+
+<p>
+The octad case is the one place where the proof leans on a published
+theorem rather than on this project's own code. A direct computer check of
+the same octad pool by both engines was started to remove that dependency.
+It had not finished when this chapter was written, so the proof uses the
+published theorem.
+</p>
+
+<h2>7.4 &nbsp; The $23$ Niemeier lattices with roots</h2>
+
+<p>
+Each of the $23$ lattices was built from its glue code and checked to be
+even, of determinant $1$, and to have exactly $24h$ roots ($h$ the Coxeter
+number). Niemeier's classification then identifies it uniquely. The Weyl
+group acts on each lattice, so $u$ may be taken dominant. The host-root
+lemma then says that $u$ pairs $0$ or $1$ with every positive root. The
+enumeration used the weaker, still sound, condition $\{0,1,3\}$. It lists
+<strong>$4{,}211$ candidates for $u$</strong> in $17$ of the lattices. The
+other six ($E_8^3$, $D_{16}E_8$, $D_{24}$, $A_{24}$, $A_{17}E_7$,
+$A_{12}^2$) admit none.
+</p>
+
+<p>
+For each candidate, the vertices must lie in the pool
+$P_u=\{v\in N : |v|^2=4,\ \langle v,u\rangle=4\}$. Two exact certificates
+were checked:
+</p>
+
+<ul>
+    <li><strong>Rank.</strong> The vertices span $\mathbb{R}^{24}$, so the
+        pool must have rank $24$. A failure is certified by an integer
+        kernel vector, checked in integers. This kills $707$ candidates.</li>
+    <li><strong>Quadric relations.</strong> If a quadric vanishes on every
+        pool vector, then summing it over the $69$ vertices gives an identity
+        that involves only $M$ and $u$, both known. A nonzero value of that
+        identity is a certificate. This kills $3{,}502$ candidates.</li>
+</ul>
+
+<p>
+That leaves $4{,}211 - 707 - 3{,}502 = 2$ survivors, both in $A_1^{24}$.
+One pairs $3$ with a root, which the host-root lemma forbids. The other has
+exactly the octad pool of §7.3 as its pool, which is excluded there.
+</p>
+
+<h2>7.5 &nbsp; The determinant-$8$ genus</h2>
+
+<p>
+<strong>A complete catalogue.</strong> Take a lattice of
+$\mathcal{G}_8$ and add a root $t$ orthogonal to it. The sum has a unique
+odd unimodular overlattice $U$, of dimension $25$. This gives a bijection
+between the lattices of $\mathcal{G}_8$ and pairs $(U,t)$ of such a lattice
+and a root in it. Borcherds
+classified all $665$ odd unimodular lattices of dimension $25$. Taking one
+root per root-system component of each gives <strong>$4{,}212$ catalogue
+hosts</strong>. Completeness is certified by a mass identity. The sum of
+$\#\mathrm{Roots}(U)/|\mathrm{Aut}(U)|$ over Borcherds' table equals, as an
+exact rational number, the mass of $\mathcal{G}_8$ computed independently
+with Hecke:
+</p>
+
+<p style="text-align:center">
+$\displaystyle \mathrm{mass}(\mathcal{G}_8) = \frac{58611124254894503831340908639}{608048902695721102473166848000000} \approx 9.639\cdot 10^{-5}.$
+</p>
+
+<p>
+The identity can only certify completeness if the $665$ rows are pairwise
+non-isometric, and that was checked separately.
+</p>
+
+<p>
+<strong>The reduction $u = 2z$.</strong> A configuration in any lattice of
+$\mathcal{G}_8$ can be moved, by an explicit two-neighbour step, into a
+catalogue host in which $u=2z$ with $z\in K=U\cap t^{\perp}$ and
+$|z|^2=3$. Three short lemmas, all proved by hand from the moment
+identities, then constrain $z$:
+</p>
+
+<ul>
+    <li>$z$ is orthogonal to every root and every unit (norm-$1$ vector) of
+        $U$;</li>
+    <li>if $K$ contains a unit, the host contains no configuration with
+        $u=2z$ (the <em>unit lemma</em>);</li>
+    <li>the root components of the host must satisfy counting inequalities
+        (the <em>row rules</em>). In particular the root system has rank at
+        most $23$.</li>
+</ul>
+
+<p>
+<strong>Pools and screens.</strong> Given $z$, every vertex has the form
+$v=w+z$ with $w\in K$, $|w|^2=3$ and $\langle w,z\rangle=-1$. So the pool of
+candidate vertices is read off from the norm-$3$ shell of $K$. Each pool was
+screened by rank, by moment membership modulo $p$ for
+$p\in\{2,3,5,65521\}$ (every certificate re-checked in integers), and by
+quadric relations. The ledgers account for every host and every candidate:
+</p>
+
+<table>
+    <thead><tr><th>det-$8$ case</th><th>count</th></tr></thead>
+    <tbody>
+        <tr><td>Catalogue hosts $(U,t)$</td><td>$4{,}212$</td></tr>
+        <tr><td>&emsp;excluded by the row rules</td><td>$561$</td></tr>
+        <tr><td>&emsp;screened</td><td>$3{,}651$</td></tr>
+        <tr><td>&emsp;&emsp;a unit in $K$ (unit lemma)</td><td>$1{,}162$</td></tr>
+        <tr><td>&emsp;&emsp;no unit, no norm-$3$ $z$ orthogonal to the roots</td><td>$1{,}030$</td></tr>
+        <tr><td>&emsp;&emsp;no unit, every $z$ killed by a screen</td><td>$552$</td></tr>
+        <tr><td>&emsp;&emsp;no unit, with surviving pools</td><td>$907$</td></tr>
+        <tr><td>Candidates $z$ in unit-free hosts (one of $\pm z$)</td><td>$18{,}850$</td></tr>
+        <tr><td>&emsp;rank certificate</td><td>$4{,}846$</td></tr>
+        <tr><td>&emsp;modular moment certificate</td><td>$3{,}821$</td></tr>
+        <tr><td>&emsp;surviving pools</td><td>$10{,}183$</td></tr>
+        <tr><td>&emsp;&emsp;excluded by the moment inequality in their own host</td><td>$8{,}362$</td></tr>
+        <tr><td>&emsp;&emsp;remaining: six Gram-isomorphism classes (§7.6)</td><td>$1{,}821$</td></tr>
+    </tbody>
+</table>
+
+<p>
+The table is tallied from the screen ledgers by a script. Every host has
+exactly one verdict, and no duplicate ledger line disagrees.
+</p>
+
+<h2>7.6 &nbsp; The last six classes</h2>
+
+<p>
+What remains is a finite set-selection problem. In a fixed host, a
+configuration is a subset $X$ of the pool with $|X|=69$, inner products in
+$\{1,2\}$, exactly $20$ partners at inner product $2$ for each member, and
+$\sum X = 23u$. On top of that come constraints that hold for every
+configuration in that host: the moment identities for every pool vector,
+for every host root and for every short dual vector, and the $\lambda/\mu$
+conditions around a pinned vertex. Adding a constraint that every real
+configuration satisfies cannot lose one. An infeasible model is therefore
+a proof that the pool holds none.
+</p>
+
+<p>
+Two pools with the same Gram matrix hold the same configurations, so one
+representative per Gram-isomorphism class suffices. All $1{,}815$
+non-representative memberships of the six classes were verified as explicit
+isomorphisms. Where a whole-pool run did not finish, the pool's own
+symmetry group, computed by nauty, split the search into sound cases:
+"contains the representative of orbit $j$ and avoids orbits $1,\dots,j-1$".
+</p>
+
+<table>
+    <thead><tr><th>class representative</th><th>pool</th><th>pools in class</th><th>Engine 1 (CP-SAT)</th><th>Engine 2 (kissat, DRAT)</th></tr></thead>
+    <tbody>
+        <tr><td><code>row004_comp0_z0</code></td><td>$567$</td><td>$1{,}680$</td><td>orbit cases $243/162/162$: $3/3$ INFEASIBLE</td><td>UNSAT, $288$ s</td></tr>
+        <tr><td><code>row010_comp0_z0</code></td><td>$603$</td><td>$112$</td><td>INFEASIBLE, $89$ s</td><td>UNSAT, $257$ s</td></tr>
+        <tr><td><code>row063_comp9_z0</code></td><td>$675$</td><td>$1$</td><td>INFEASIBLE, $87$ s</td><td>UNSAT, $590$ s</td></tr>
+        <tr><td><code>row072_comp0_z0</code></td><td>$675$</td><td>$26$</td><td>INFEASIBLE, $91$ s</td><td>UNSAT, $226$ s</td></tr>
+        <tr><td><code>row187_comp1_z0</code></td><td>$747$</td><td>$1$</td><td>INFEASIBLE, $119$ s</td><td>UNSAT, $44$ s</td></tr>
+        <tr><td><code>row434_comp5_z0</code></td><td>$891$</td><td>$1$</td><td>INFEASIBLE, $152$ s</td><td>orbit cases $810/81$: $2/2$ UNSAT</td></tr>
+    </tbody>
+</table>
+
+<p>
+Host names give the Borcherds row and the root component. Every engine-2
+UNSAT carries a DRAT proof that <code>drat-trim</code> accepted.
+Independently of the moment-inequality shortcut, <em>both</em> engines also
+decided all $785$ Gram classes of the $10{,}183$ surviving pools, and found
+every one infeasible. Engine 2 closed $772$ by the moment inequality, $2$ by
+a count-profile argument, $5$ by a degree count, and $6$ by DRAT-checked
+UNSAT. Engine 1 closed all $785$ with CP-SAT, three of them through orbit
+cases.
+</p>
+
+<h2>7.7 &nbsp; What is proved by hand and what is computed</h2>
+
+<table>
+    <thead><tr><th>Step</th><th>How it is established</th></tr></thead>
+    <tbody>
+        <tr><td>Vertex lattice, $u=s/23\in L_X$, moment identities (§7.1)</td><td>proved by hand</td></tr>
+        <tr><td>Maximal overlattices have $\det 1$ or $8$ (§7.2)</td><td>proved, using an exact enumeration of small finite quadratic forms (re-done by independent brute force)</td></tr>
+        <tr><td>Host-root lemma (§7.2)</td><td>proved by hand</td></tr>
+        <tr><td>Leech lattice (§7.3)</td><td>proved from $|\mathrm{Co}_0|$, the theta series of $\Lambda$ and a nauty group order; the octad case by Brouwer–Calderbank (1986)</td></tr>
+        <tr><td>The $23$ Niemeier lattices with roots (§7.4)</td><td>computation: an exact certificate for each of the $4{,}211$ candidates</td></tr>
+        <tr><td>det-$8$ catalogue (§7.5)</td><td>correspondence proved; Borcherds' table checked by an exact mass identity</td></tr>
+        <tr><td>Reduction $u=2z$, unit lemma, row rules (§7.5)</td><td>proved by hand</td></tr>
+        <tr><td>det-$8$ screens and the final solver step (§7.5–7.6)</td><td>computation: two independent engines, DRAT-checked UNSAT, must-find controls, independent re-screens</td></tr>
+    </tbody>
+</table>
+
+<h2>7.8 &nbsp; How it was checked</h2>
+
+<p>
+A search that reports "nothing" is only as good as its ability to find
+what is there. This book has told that story several times (§5.1, the
+fire-drill of Chapter 5). No $\mathrm{SRG}(69,20,7,5)$ exists to plant, so
+the controls are known graphs <em>of the same shape</em>: Gram matrix
+$3I+A+J$, norms $4$, inner products in $\{1,2\}$. Each is placed in its own
+lattice, with decoy vectors where applicable, and the engines must recover it.
+</p>
+
+<ul>
+    <li><strong>Must-find controls.</strong> $\mathrm{SRG}(36,15,6,6)$ (a
+        Latin-square graph) was found by both engines. The Paulus graphs
+        $\mathrm{SRG}(26,10,3,4)$, in pools of $252$ and $572$ vectors with
+        $226$ and $546$ decoys, were found by both engines.
+        $\mathrm{SRG}(64,45,32,30)$, in hosts with $12$ and $36$ roots
+        orthogonal to $u$, was found by engine 1 with the root identities
+        switched on. Engine 2's certificates fire on none of the
+        controls.</li>
+    <li><strong>A second engine.</strong> Engine 2 was written independently
+        of engine 1. It shares no code with it and derives its model from
+        $(69,20,7,5)$ alone. It is a pure CNF with exact totalizer counters,
+        solved by kissat 4.0.4. Every UNSAT comes with a DRAT proof checked
+        by <code>drat-trim</code>. PARI only <em>proposes</em> short dual
+        vectors; every one is re-checked exactly before use.</li>
+    <li><strong>Two audits.</strong> An adversarial audit re-derived the
+        reduction steps. An end-to-end audit then re-screened $40$ hosts
+        from scratch with code that imports nothing from the original
+        screen, and every kill and every survivor agreed. It also rebuilt
+        all $4{,}212$ hosts with Hecke and matched their root, unit and $z$
+        counts, verified $736$ class memberships as explicit isomorphisms,
+        and recomputed the orbit decompositions from verified generators.</li>
+    <li><strong>A proof review.</strong> An independent reader re-derived
+        every lemma of the write-up. It found no error that breaks the
+        proof, and its corrections are applied in the write-up. It checked
+        the Leech counting argument, verified all $1{,}815$ class
+        memberships, and showed that the Borcherds rows sharing a root
+        system ($16$ groups, $33$ rows) are pairwise non-isometric.</li>
+    <li><strong>A certifier.</strong> A final script checks that every host
+        has a verdict and every surviving pool belongs to a class. It also
+        checks that every class has an INFEASIBLE verdict, from a whole-pool
+        run or from orbit cases that are all INFEASIBLE and whose sizes sum
+        to the pool. It rejects partial and MILP lines, and it printed
+        <code>CERTIFICATE: PASS</code>.</li>
+</ul>
+
+<div class="callout definition">
+    <div class="callout-title">What rests on less than the rest</div>
+    <p>
+    The write-up names these explicitly. The <strong>external
+    inputs</strong> are three: the order of $\mathrm{Co}_0$, the count $4600$
+    and the theta series of $\Lambda$; Borcherds' table of the $665$
+    lattices with their automorphism orders, cross-checked by the mass
+    identity; and Brouwer–Calderbank for the octad pool. Two computations
+    rest on a <strong>single implementation</strong>. One is the enumeration
+    of candidate $u$ in the Niemeier lattices: each kill is certified
+    individually, but the completeness of the candidate list rests on one
+    reviewed program. The other is the use of Borcherds' list itself.
+    </p>
+</div>
+
+<h2>7.9 &nbsp; What this does to the rest of the book</h2>
+
+<p>
+Chapters 1–6 were written while the question was open. They are kept
+unchanged as the record of the hunt, each with a note at the top. Every
+partial result in them is now a consequence of Theorem 7.1, because a graph
+that does not exist has no automorphisms. That covers the orders $5$, $23$
+and every prime $\ge 7$, the Cayley closure, the order-$3$ re-derivation,
+the involution computations and the rigid Gram wall. None of them is used
+in the proof. None of the campaigns they describe needs to be finished.
+</p>
+
+<p>
+Three lessons carry over.
+</p>
+
+<ul>
+    <li><strong>The iron law was about searching for graphs.</strong> Every
+        method in Chapters 2–4 searched a space of graphs, with or without
+        a prescribed symmetry, and each hit the wall the series describes.
+        The ending counted <em>lattices</em> instead. Lattices of the right
+        rank and determinant are finite in number and classified, so the
+        search space was finite from the start. This does not refute the
+        law. It goes around it.</li>
+    <li><strong>The discipline did transfer.</strong> Must-find controls on
+        known graphs of the same shape, two engines with no shared code,
+        checkable UNSAT certificates, ledgers tallied by script, and the rule
+        that a timeout proves nothing are the same habits this book
+        recorded in Chapter 5. They are what the proof's credibility rests
+        on.</li>
+    <li><strong>The method travels, with care.</strong> The same idea
+        applied to $\mathrm{srg}(99,42,21,15)$ is recorded in the sister
+        volume
+        <a href="https://github.com/tonykoval/hunting-srg-unfinished"><em>Hunting
+        the Unfinished</em></a>. There it has produced a <em>candidate</em>
+        nonexistence theorem, whose write-up is under review. It is not
+        claimed here.</li>
+</ul>
+
+<div class="callout">
+    <div class="callout-title">Where to read the full argument</div>
+    <p>
+    All in the <a href="https://github.com/tonykoval/orbit-gen">orbit-gen</a>
+    repository:
+    </p>
+    <ul>
+        <li><code>docs/paper/srg69.tex</code> / <code>srg69.pdf</code>: the
+            write-up, with proofs, data tables, algorithms, reproduction
+            instructions and source listings;</li>
+        <li><code>CHANGELOG.md</code>, entries dated 2026-09-26: the
+            day-by-day record;</li>
+        <li><code>docs/audit_srg69_lattice_route_2026_09_26.md</code> and
+            <code>docs/audit_srg69_endtoend_2026_09_26.md</code>: the two
+            audits;</li>
+        <li><code>docs/agent_engine2_srg69_2026_09_26.md</code>: the
+            independent second engine;</li>
+        <li><code>docs/review_srg69_proof_2026_09_26.md</code>: the review of
+            the write-up.</li>
+    </ul>
+</div>
+
+<div class="chapter-nav">
+    <a class="prev" href="ch06_tools.html">Ch 6 · Tools &amp; Reproducibility</a>
+    <a class="next" href="../appendix/notation.html">Appendix A · Notation &amp; Glossary</a>
+</div>
+
+<footer class="book-foot">
+    <p><em>Hunting SRG(69)</em> · Chapter 7 · Tony Koval · CC-BY-4.0.</p>
+</footer>
+
+</main>
+
+</div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="BookInit.renderMath()"></script>
+<script src="../assets/book.js"></script>
+
+</body>
+</html>

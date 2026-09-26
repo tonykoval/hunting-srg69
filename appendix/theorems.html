@@ -30,6 +30,7 @@
     <ol start="5">
         <li><a href="../part3_frontier/ch05_frontier.html">5. Findings &amp; the Decision</a></li>
         <li><a href="../part3_frontier/ch06_tools.html">6. Tools &amp; Reproducibility</a></li>
+        <li><a href="../part3_frontier/ch07_the_end.html">7. The End of the Hunt</a></li>
     </ol>
     <h2>Appendices</h2>
     <ol>
@@ -51,6 +52,17 @@ The verifiable results of the hunt, collected. Each "no automorphism" and
 "no Cayley" statement is an exhaustive computation that terminated in a
 real certificate, not a budget.
 </p>
+
+<div class="callout warning">
+    <div class="callout-title">How to read this appendix after 2026-09-26</div>
+    <p>
+    Theorem B.6 settles the question: <strong>no
+    $\mathrm{SRG}(69,20,7,5)$ exists</strong> (Chapter 7; computer-assisted
+    proof, write-up under review). Results B.3–B.5 were proved while the
+    question was open. They are kept as history and are now consequences
+    of B.6. B.1 and B.2 are general facts and remain in use.
+    </p>
+</div>
 
 <div class="callout theorem">
     <div class="callout-title">Theorem B.1 (spectrum) — Ch 1</div>
@@ -96,6 +108,15 @@ real certificate, not a budget.
     UNSAT (<code>kissat</code>, $23$ s). Each "0 matrices" is an EXHAUSTED
     certificate, so no graph carries the prescribed symmetry. $\square$
     </p>
+    <p>
+    <em>Erratum and status (2026-09-26).</em> The order-$3$ part of this
+    statement was downgraded in Chapter 3 (2026-08-21) to a re-derivation
+    in progress, because the enumeration behind it predates the audited
+    generator. The parenthetical "(Behbahani–Lam)" names the method.
+    Their published runs start at $p=5$ and do not cover $p=3$ (§5.1). The
+    re-derivation was never finished. The whole statement, order $3$
+    included, now follows from Theorem B.6.
+    </p>
 </div>
 
 <div class="callout theorem">
@@ -123,10 +144,98 @@ real certificate, not a budget.
     both decided by the sound Gram-PSD / orbit-matrix enumerations of
     Chapters 3–4. $\square$
     </p>
+    <p>
+    <em>Superseded (2026-09-26)</em> by Theorem B.6. Neither open region
+    was finished. Neither is needed.
+    </p>
+</div>
+
+<div class="callout theorem">
+    <div class="callout-title">Theorem B.6 (nonexistence, 2026-09-26) — Ch 7</div>
+    <p>
+    There is no strongly regular graph with parameters $(69,20,7,5)$.
+    </p>
+    <p>
+    <em>Proof outline.</em> The matrix $G=3I+A+J$ is the Gram matrix of
+    $69$ norm-$4$ vectors spanning an even lattice $L_X$ of rank $24$ that
+    contains $u=s/23$ (Lemma B.8). A maximal even overlattice $N$ of
+    $L_X$ is either a Niemeier lattice or lies in one genus
+    $\mathcal{G}_8$ of determinant $8$. The Leech lattice is excluded by a
+    counting argument and by Brouwer–Calderbank (1986) for the octad case.
+    The $23$ Niemeier lattices with roots are excluded by exact
+    certificates for all $4{,}211$ candidates for $u$. For $\mathcal{G}_8$,
+    a complete catalogue of $4{,}212$ hosts is built from Borcherds' $665$
+    odd unimodular lattices of dimension $25$, and its completeness is
+    certified by an exact mass identity. Hand lemmas and exact screens reduce
+    this case to $10{,}183$ candidate pools. $8{,}362$ of them die by the
+    moment inequality in their own host. The remaining $1{,}821$ form six
+    Gram-isomorphism classes, each shown infeasible by two independent
+    engines (CP-SAT, and CNF/kissat with DRAT proofs checked by
+    <code>drat-trim</code>). Details, verification and external inputs are
+    in Chapter 7. $\square$
+    </p>
+    <p>
+    <em>Status.</em> This is a computer-assisted proof, banked in the
+    project on 2026-09-26 after two independent audits and a review. The
+    full write-up is <code>docs/paper/srg69.tex</code> in the orbit-gen
+    repository. It is being prepared for review by a mathematician and has
+    not been published or peer-reviewed.
+    </p>
+</div>
+
+<div class="callout theorem">
+    <div class="callout-title">Corollary B.7 (no quasi-symmetric design) — Ch 7</div>
+    <p>
+    There is no quasi-symmetric $2$-$(46,16,8)$ design with block
+    intersection numbers $4$ and $6$.
+    </p>
+    <p>
+    <em>Proof.</em> Such a design has $r=24$ and $b=69$ blocks. Let $N$ be
+    its $46\times 69$ incidence matrix and $A$ the adjacency matrix of the
+    block graph, with blocks adjacent when they meet in $4$ points. Then
+    $NN^{\mathsf T}=16I+8J$ and
+    $N^{\mathsf T}N=16I+4A+6(J-I-A)=10I-2A+6J$. The nonzero spectrum of
+    $N^{\mathsf T}N$ is that of $NN^{\mathsf T}$: $384$ once and $16$ with
+    multiplicity $45$. The eigenvalue $0$ has multiplicity $23$. On the
+    all-ones vector, $10-2k+414=384$ gives $k=20$. On its complement,
+    $10-2\theta\in\{16,0\}$ gives eigenvalues $-3$ (multiplicity $45$) and
+    $5$ (multiplicity $23$). A connected regular graph with exactly three
+    distinct eigenvalues is strongly regular. With $\theta_1=5$ and
+    $\theta_2=-3$ it has $\mu=k+\theta_1\theta_2=5$ and
+    $\lambda=\mu+\theta_1+\theta_2=7$. So the block graph would be an
+    $\mathrm{SRG}(69,20,7,5)$, contradicting Theorem B.6. $\square$
+    </p>
+</div>
+
+<div class="callout theorem">
+    <div class="callout-title">Lemma B.8 (the vertex lattice) — Ch 7</div>
+    <p>
+    Let $v_1,\dots,v_{69}\in\mathbb{R}^{24}$ have Gram matrix $3I+A+J$ for
+    an $\mathrm{SRG}(69,20,7,5)$, let $L_X$ be the lattice they span and
+    $s=\sum_i v_i$. Then $u=s/23\in L_X$, $|u|^2=12$,
+    $\langle v_i,u\rangle=4$, and
+    $M=\sum_i v_iv_i^{\mathsf T}=8I+7uu^{\mathsf T}$. Moreover, for any
+    lattice $N\supseteq L_X$ and any $x\in N^{\#}$, the integers
+    $c_i=\langle x,v_i\rangle$ and $h=\langle x,u\rangle$ satisfy
+    $\sum_i c_i=23h$, $\sum_i c_i^2=8|x|^2+7h^2$ and
+    $8|x|^2+7h^2\ge 23|h|$.
+    </p>
+    <p>
+    <em>Proof.</em> $G$ has eigenvalues $92$ (on $\mathbf{1}$), $8$
+    (multiplicity $23$) and $0$, and $M$ has the same nonzero spectrum.
+    Since $\langle v_i,s\rangle=4+40+48=92$, $s$ is the $92$-eigenvector of
+    $M$ with $|s|^2=69\cdot 92=12\cdot 23^2$, so
+    $M=8I+\tfrac{7}{529}ss^{\mathsf T}$. For a vertex $v$,
+    $Mv=\sum_j\langle v_j,v\rangle v_j\in L_X$ and $Mv=8v+\tfrac{28}{23}s$,
+    so $\tfrac{28}{23}s\in L_X$. Together with $s\in L_X$ and
+    $\gcd(28,23)=1$ this gives $s/23\in L_X$. The moment identities are
+    $\sum_i c_i=\langle x,s\rangle$ and $\sum_i c_i^2=x^{\mathsf T}Mx$.
+    The inequality follows by summing $c_i(c_i\mp1)\ge 0$. $\square$
+    </p>
 </div>
 
 <div class="chapter-nav">
-    <a class="prev" href="../part3_frontier/ch05_frontier.html">Ch 5 · Findings &amp; the Decision</a>
+    <a class="prev" href="notation.html">Appendix A · Notation &amp; Glossary</a>
     <a class="next" href="bibliography.html">Appendix C · Bibliography</a>
 </div>
 

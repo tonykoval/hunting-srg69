@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hunting SRG(69) — Does a Strongly Regular Graph (69,20,7,5) Exist?</title>
-<meta name="description" content="An interactive book on the smallest open existence question in the strongly-regular-graph tables: does an SRG(69,20,7,5) exist?">
+<meta name="description" content="An interactive book on what was the smallest open existence question in the strongly-regular-graph tables: does an SRG(69,20,7,5) exist? It does not (computer-assisted proof, 2026-09-26; write-up under review).">
 <meta name="author" content="Tony Koval">
 <link rel="stylesheet" href="assets/book.css">
 <link rel="stylesheet" href="assets/print.css" media="print">
@@ -32,6 +32,7 @@
     <ol start="5">
         <li><a href="part3_frontier/ch05_frontier.html">5. Findings &amp; the Decision</a></li>
         <li><a href="part3_frontier/ch06_tools.html">6. Tools &amp; Reproducibility</a></li>
+        <li><a href="part3_frontier/ch07_the_end.html">7. The End of the Hunt</a></li>
     </ol>
     <h2>Appendices</h2>
     <ol>
@@ -48,12 +49,35 @@
         Hunting SRG(69)
     </h1>
 
+    <div class="callout theorem">
+        <div class="callout-title">Status (2026-09-26): the hunt is over — no such graph exists</div>
+        <p>
+        <strong>Theorem.</strong> There is no strongly regular graph with
+        parameters $(69,20,7,5)$. Consequently there is no quasi-symmetric
+        $2$-$(46,16,8)$ design with block intersection numbers $4$ and $6$.
+        </p>
+        <p>
+        The proof is computer-assisted and assumes no symmetry. It embeds
+        the graph in a lattice, lists every lattice that could hold it, and
+        closes the last cases with two independent solver engines, one of
+        them producing DRAT-checked UNSAT proofs. It was banked in the
+        project after two independent audits and a review of the write-up.
+        The write-up (<code>docs/paper/srg69.tex</code> in the
+        <a href="https://github.com/tonykoval/orbit-gen">orbit-gen</a>
+        repository) is being prepared for review by a mathematician. It has
+        not been published or peer-reviewed. Read the outline in
+        <a href="part3_frontier/ch07_the_end.html">Chapter 7 — The End of the
+        Hunt</a>.
+        </p>
+    </div>
+
     <p class="lead">
     Does a strongly regular graph with parameters $(69, 20, 7, 5)$ exist?
-    Nobody knows. It is the smallest set of parameters in the
-    strongly-regular-graph tables for which the question of <em>existence</em>
-    — not count — is still open. This book is the record of the hunt to
-    settle it.
+    When this book began, nobody knew. It was the smallest set of parameters
+    in the strongly-regular-graph tables for which the question of
+    <em>existence</em> — not count — was still open. This book is the record
+    of the hunt to settle it, and of how it ended: <strong>no such graph
+    exists</strong>.
     </p>
 
     <h2>The one-sentence problem</h2>
@@ -62,21 +86,22 @@
     A <em>strongly regular graph</em> $\mathrm{SRG}(n,k,\lambda,\mu)$ is a
     $k$-regular graph on $n$ vertices in which adjacent vertices share
     exactly $\lambda$ common neighbours and non-adjacent vertices share
-    exactly $\mu$. The tuple $(69,20,7,5)$ passes every feasibility test
-    ever devised, yet no one has built such a graph or proved one cannot
-    exist.
+    exactly $\mu$. The tuple $(69,20,7,5)$ passes every standard
+    feasibility test, yet for years no one had built such a graph or proved
+    that none can exist. Chapter 7 gives the proof that none exists.
     </p>
 
     <div class="callout warning">
-        <div class="callout-title">The motivating question</div>
+        <div class="callout-title">The motivating question (as it stood when the hunt began)</div>
         <p>
-        Brouwer's table lists $(69,20,7,5)$ with a bare "<strong>?</strong>".
+        Brouwer's table listed $(69,20,7,5)$ with a bare "<strong>?</strong>".
         Two neighbours were recently settled — $\mathrm{SRG}(65,32,15,16)$
         <em>constructed</em> by Gritsenko (2021), $\mathrm{SRG}(85,14,3,2)$
-        <em>refuted</em> by Shpectorov–Zhao (2025) — which makes
+        <em>refuted</em> by Shpectorov–Zhao (2025) — which made
         $(69,20,7,5)$ the <strong>smallest open existence question</strong>
         left in the table. Find one graph and it exists; rule out every
-        possibility and it does not. Either ending is a result.
+        possibility and it does not. Either ending is a result. The hunt
+        ended the second way.
         </p>
     </div>
 
@@ -87,19 +112,23 @@
     $2^{2346}$ graphs, the strategy exploits a key asymmetry of an
     existence question: we may <em>assume</em> a symmetry, search for a
     graph that has it, and rule it out if none appears. That engine — the
-    orbit-matrix method — has already closed most of the symmetric search
-    space. What it has <em>proven</em> is as much the content of this book
-    as what it has left open.
+    orbit-matrix method — closed much of the symmetric search space.
+    Chapters 1–6 record what it proved and where it stalled. The ending came
+    from a different direction: a lattice argument that needs no symmetry
+    at all (Chapter 7).
     </p>
 
     <div class="callout">
-        <div class="callout-title">Already nailed shut</div>
+        <div class="callout-title">Before the ending (historical)</div>
         <p>
-        No $\mathrm{SRG}(69,20,7,5)$ has an automorphism of order $3$, $5$,
-        $23$, or any odd prime, and none is a Cayley graph — each a
-        verifiable, exhaustive result (Appendix B). What remains is two
-        precisely-bounded, cluster-scale regions: involution-symmetric
-        graphs and fully rigid ones.
+        While the question was open, the hunt excluded symmetric cases one by
+        one. It found no automorphism of order $5$, $23$ or any prime
+        $\ge 7$ (largely re-verifying Behbahani–Lam), and no Cayley graph.
+        The order-$3$ case was downgraded in Chapter 3 to a re-derivation in
+        progress. Two cluster-scale regions were left: involution-symmetric
+        graphs and fully rigid ones. None of this is used in the final
+        proof, and all of it is now a consequence of the nonexistence
+        theorem.
         </p>
     </div>
 
@@ -110,14 +139,16 @@
     regular graph — poses three genuinely different questions, and the same
     wall stops every general method on each: <em>a target that is large and
     nearly symmetry-free forces full enumeration cost</em>. That common
-    lesson, met from three angles, is the spine of the series.
+    lesson, met from three angles, is the spine of the series. For
+    $(69,20,7,5)$ the wall was never broken. The proof went around it by
+    counting lattices instead of graphs.
     </p>
 
     <div class="callout">
         <div class="callout-title">The Hunting SRG series</div>
         <ul>
             <li><a href="https://github.com/tonykoval/hunting-srg37"><strong>SRG(37,18,8,9)</strong></a> — <em>completeness</em>: is the catalog of $6802$ conference graphs final, or is there a $6803$rd?</li>
-            <li><a href="https://github.com/tonykoval/hunting-srg69"><strong>SRG(69,20,7,5)</strong></a> — <em>existence</em>: the smallest parameters with no known graph and no proof. &nbsp;<em>(you are here)</em></li>
+            <li><a href="https://github.com/tonykoval/hunting-srg69"><strong>SRG(69,20,7,5)</strong></a> — <em>existence</em>: once the smallest open case; <strong>settled 2026-09-26, no such graph exists</strong> (computer-assisted proof, write-up under review). &nbsp;<em>(you are here)</em></li>
             <li><a href="https://github.com/tonykoval/hunting-srg99"><strong>SRG(99,14,1,2)</strong></a> — <em>existence, famous</em>: Conway's $\$1000$ graph.</li>
             <li><a href="https://github.com/tonykoval/hunting-srg-unfinished"><strong>Hunting the Unfinished</strong></a> — <em>archaeology</em>: finishing the "?" rows a 2011 thesis left behind.</li>
         </ul>
@@ -137,10 +168,16 @@
     (Ch 3) — and the Cayley closure plus the rigid Gram-PSD wall (Ch 4).
     </p>
     <p>
-    <strong>Part III — Findings &amp; Frontier.</strong> What is proven,
-    the two remaining regions, the decision procedure, and the distributed
-    plan that would settle it either way (Ch 5); and the exact commands that
-    reproduce every closure and drive the open regions (Ch 6).
+    <strong>Part III — Findings &amp; Frontier.</strong> What was proven,
+    the two regions left open, the decision procedure, and the distributed
+    plan that would have settled it either way (Ch 5); the exact commands
+    that reproduce every closure and drive the open regions (Ch 6); and the
+    ending: the lattice proof that no $\mathrm{SRG}(69,20,7,5)$ exists, what
+    is proved by hand, what is computed, and how it was checked (Ch 7).
+    </p>
+    <p>
+    Chapters 1–6 were written while the question was open and are kept as
+    the record of the hunt, each with a note pointing to Chapter 7.
     </p>
 
     <hr>
@@ -153,6 +190,10 @@
     PDS search and Gram-PSD filter live in
     <a href="https://github.com/tonykoval/orbit-gen">github.com/tonykoval/orbit-gen</a>.
     <br>
+    <strong>The proof.</strong> The nonexistence write-up, with full proofs,
+    data, algorithms and source listings, is <code>docs/paper/srg69.tex</code>
+    in the same repository (in preparation for review; not yet published).
+    <br>
     <strong>Sister volume.</strong>
     <a href="https://github.com/tonykoval/hunting-srg37">Hunting SRG(37)</a>,
     on the catalog-completeness question for the conference parameters
@@ -163,6 +204,8 @@
 
     <p style="margin-top: 3em; text-align: center; font-style: italic; color: var(--muted);">
     <em>Begin:</em>&nbsp; <a href="part1_target/ch01_target.html">Chapter 1 — The Target &rarr;</a>
+    <br>
+    <em>Or go straight to the ending:</em>&nbsp; <a href="part3_frontier/ch07_the_end.html">Chapter 7 — The End of the Hunt &rarr;</a>
     </p>
 
 </main>
